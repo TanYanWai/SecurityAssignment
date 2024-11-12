@@ -16,13 +16,28 @@ if ($conn->connect_error) {
 $room = $_POST['room'];
 $servingNumber = $_POST['servingNumber'];
 
-// Update the serving number in the database
-$sql = "UPDATE queue SET serving_number = '$servingNumber' WHERE room = '$room'";
-if ($conn->query($sql) === TRUE) {
-    echo "Serving number updated successfully.";
-} else {
-    echo "Error updating serving number: " . $conn->error;
+// Prepare the SQL statement with placeholders
+$sql = "UPDATE queue SET serving_number = ? WHERE room = ?";
+
+// Prepare the statement
+$stmt = $conn->prepare($sql);
+
+// Check if preparation was successful
+if ($stmt === false) {
+    die("Error preparing statement: " . $conn->error);
 }
 
+// Bind the parameters to the placeholders
+$stmt->bind_param("ss", $servingNumber, $room);
+
+// Execute the statement
+if ($stmt->execute()) {
+    echo "Serving number updated successfully.";
+} else {
+    echo "Error updating serving number: " . $stmt->error;
+}
+
+// Close the statement and connection
+$stmt->close();
 $conn->close();
 ?>

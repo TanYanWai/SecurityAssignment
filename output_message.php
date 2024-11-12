@@ -14,14 +14,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Insecure query without parameter binding
-$sql = "SELECT * FROM messages WHERE recipient_email = '" . $_SESSION['recipient_email'] . "'";
+// Prepared statement to prevent SQL injection
+$stmt = $conn->prepare("SELECT * FROM messages WHERE recipient_email = ?");
+$stmt->bind_param("s", $_SESSION['recipient_email']); // "s" denotes the type (string)
 
-$result = $conn->query($sql);
+$stmt->execute();
 
-if ($result === false) {
-    die("Query Execution Failed: " . $conn->error);
-}
+$result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     echo "No messages found for the recipient email " . $_SESSION['recipient_email'];

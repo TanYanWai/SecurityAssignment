@@ -10,8 +10,16 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Use prepared statement to prevent SQL injection
 $sql = "SELECT Sign_up_details_email FROM sign_up";
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+
+if ($stmt === false) {
+    die("Prepared statement failed: " . $conn->error);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 $emails = array();
 if ($result->num_rows > 0) {
@@ -20,6 +28,7 @@ if ($result->num_rows > 0) {
   }
 }
 
+$stmt->close();
 $conn->close();
 
 header("Content-Type: application/json");

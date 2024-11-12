@@ -18,13 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $description = $_POST['description'];
 
-    $sql = "INSERT INTO message (icNumber, title, description) VALUES ('$icNumber', '$title', '$description')";
+    // Prepare the SQL statement with placeholders
+    $stmt = $conn->prepare("INSERT INTO message (icNumber, title, description) VALUES (?, ?, ?)");
+    
+    // Bind the user input to the prepared statement parameters
+    $stmt->bind_param("sss", $icNumber, $title, $description);
 
-    if (mysqli_query($conn, $sql)) {
+    // Execute the statement
+    if ($stmt->execute()) {
         echo "Message sent successfully.";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $stmt->error;
     }
+
+    // Close the prepared statement
+    $stmt->close();
 }
 
 // Close the database connection

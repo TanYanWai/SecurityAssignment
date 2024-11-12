@@ -23,16 +23,21 @@ $appointmentEmail = $_POST['Appointment_email'];
 $appointmentName = $_POST['Appointment_name'];
 $appointmentRoom = $_POST['Appointment_room'];
 
-// Create SQL query directly
-$sql = "INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
-        VALUES ('$appointmentDate', '$appointmentTime', '$appointmentEmail', '$appointmentName', '$appointmentRoom')";
+// Prepare the SQL statement
+$stmt = $conn->prepare("INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
+                        VALUES (?, ?, ?, ?, ?)");
 
-if ($conn->query($sql) === TRUE) {
+// Bind parameters to the prepared statement
+$stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentEmail, $appointmentName, $appointmentRoom);
+
+// Execute the statement
+if ($stmt->execute()) {
     echo "Data inserted successfully";
 } else {
-    echo "Error inserting data: " . $conn->error;
+    echo "Error inserting data: " . $stmt->error;
 }
 
-// Close the connection
+// Close the statement and connection
+$stmt->close();
 $conn->close();
 ?>

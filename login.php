@@ -17,11 +17,21 @@ if (isset($_POST['login_form_submit'])) {
     $email = $_POST['Login_email'];
     $password = $_POST['Login_password'];
 
-    // Insecure query with no parameter binding
-    $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = '$email' AND sign_up_details_pass = '$password'";
-
-    $result = mysqli_query($conn, $sql_query);
-
+    // Use prepared statement to prevent SQL injection
+    $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = ? AND sign_up_details_pass = ?";
+    
+    // Prepare the statement
+    $stmt = mysqli_prepare($conn, $sql_query);
+    
+    // Bind the parameters
+    mysqli_stmt_bind_param($stmt, "ss", $email, $password); // 'ss' means both parameters are strings
+    
+    // Execute the statement
+    mysqli_stmt_execute($stmt);
+    
+    // Get the result
+    $result = mysqli_stmt_get_result($stmt);
+    
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
             // Redirect to HomePage if login is successful
@@ -33,6 +43,9 @@ if (isset($_POST['login_form_submit'])) {
     } else {
         echo "Query Execution Failed: " . mysqli_error($conn);
     }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
 }
 
 // Close the connection
