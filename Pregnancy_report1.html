@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <title>Hospital Booking System Appointment From </title>
+    <link rel="stylesheet" type="text/css" href="Pregnancy_report.css">
+    <link rel="stylesheet" type="text/css" href="HomePage.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="top_header">
+            <div class="contacts">
+                <div class="contact_email">
+                    <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+                </div>
+                <div class="contact_phone">
+                    <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+                </div>
+            </div>
+            <div class="transparent_button">
+                <a href="Admin-add-appointment.html" class="buttonItSlef details">APPOINTMENT</a>
+            </div>
+        </div>
+    
+        <div class="navigation">
+            <div class="brand">
+                <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+            </div>
+            <div class="nav">
+               <a href="HomePage.html">Home</a >
+               <a href="admin.html">Live Queue</a >
+               <a href="Message.html">Send Message</a >
+               <a href="output_message.php">Receive Message</a >
+               <a href="Pregnancy_report1.html">Report</a >
+            </div>
+        </div>
+    </header>
+    <div class="report_bg"></div>
+    <div class="report_container">
+    <div class="report_title_patient">
+        <h1>Pregnancy Report</h1>
+    </div>
+        <div class="report_search">
+            <form action="Pregnancy_report.php" method="post">
+                <div class="forSearchReport">
+                <input type="text" name="report_IC_number" placeholder="Enter IC number">
+                <select name="report_month">
+                    <option value="1">Month 1</option>
+                    <option value="2">Month 2</option>
+                    <option value="3">Month 3</option>
+                    <option value="4">Month 4</option>
+                    <option value="5">Month 5</option>
+                    <option value="6">Month 6</option>
+                    <option value="7">Month 7</option>
+                    <option value="8">Month 8</option>
+                    <option value="9">Month 9</option>
+                    <option value="10">Month 10</option>
+                </select>
+                <input type="submit" id="reportSearchButton" name="report_search_submit" value="Search">
+            </div>
+            </form>
+        </div>
+       
+        <form action="Pregnancy_report.html" method="post">
+            <div class="report_details">
+                <h3>Report details</h3>
+            </div>
+            <div class="report_details">
+                <label for="report_IC">IC number:</label><br>
+                <input type="text" name="report_Ic_Number" placeholder="Ic Number" maxlenght=30>
+            </div>
+            <div class="report_details">
+                <label for="report_month">Pregnancy Month:</label><br>
+                <select name="report_month">
+                    <option value="1">Month 1</option>
+                    <option value="2">Month 2</option>
+                    <option value="3">Month 3</option>
+                    <option value="4">Month 4</option>
+                    <option value="5">Month 5</option>
+                    <option value="6">Month 6</option>
+                    <option value="7">Month 7</option>
+                    <option value="8">Month 8</option>
+                    <option value="9">Month 9</option>
+                    <option value="10">Month 10</option>
+                </select>
+            </div>
+            <div class="report_details hidden_page">
+                <label for="report_name">Name:</label><br>
+                <input type="text" name="report_first_name" placeholder="First Name" maxlenght=10>
+                <input type="text" name="report_last_name" placeholder="Last Name" maxlenght=10>
+            </div>
+            <div class="report_details" style="margin-top: 20px;">
+                <label for="report_phonenum">Phone Number:</label><br>
+                <input type="tel" name="report_patient_tel" placeholder="012-456-7890" maxlenght=13>
+            </div>
+            <div class="report_details">
+                <label for="report_birthday">Birthday:</label><br>
+                <input type="date" name="report_patient_birthday" placeholder="42" maxlenght=30>
+            </div>
+            <div class="report_details">
+                <label for="report_email">Email:</label><br>
+                <input type="email" name="report_patient_email" placeholder="Example@gmail.com" maxlenght=30>
+            </div>
+            <div class="report_details">
+                <label for="report_address">Address:</label><br>
+                <input type="text" name="report_patient_address1" placeholder="Address line 1" maxlenght=100>
+                <input type="text" name="report_patient_address2" placeholder="Address line 2" maxlenght=100>
+                <input type="text" name="report_first_city" placeholder="City" maxlenght=40>
+                <input type="text" name="report_state" placeholder="State" maxlenght=40>
+                <input type="text" name="report_postal" placeholder="Postal / Zip Code" maxlenght=40>
+            </div>
+            <div class="report_details_row1">
+                <div class="report_details">
+                    <label for="BloodPressure">Blood Pressure</label><br>
+                    <input type="text" name="bloodPressure" placeholder="Fill in the blank" maxlength="10">
+                </div>
+                <div class="report_details">
+                    <label for="Weight">Weight</label><br>
+                    <input type="text" name="weight1" placeholder="Fill in the blank" maxlength="10">
+                </div>
+            </div>
+            <div class="report_details_row2">
+                <div class="report_details">
+                    <label for="ultraSound">Ultra Sound Findings:</label><br>
+                    <input type="text" name="ultraSound" placeholder="Fill in the blank" maxlenght=10>
+                </div>
+                <div class="report_details">
+                    <label for="fetalHeartRate">Fetal Heart Rate:</label><br>
+                    <input type="text" name="fetalHeartRate" placeholder="Fill in the blank" maxlenght=10>
+                </div>
+            </div>
+            <div class="report_details">
+                <label for="maternalSymptoms">Maternal Symptoms:</label><br>
+                <select name="maternalSymptoms">
+                    <option value="none_maternalSymptoms">none</option>
+                    <option value="nausea">nausea</option>
+                    <option value="fatigue">fatigue</option>
+                    <option value="swelling">swelling</option>
+                    <option value="foodCravings">Food Cravings</option>
+                    <option value="Backache">Backache</option>
+                    <option value="Breathlessness">Breathlessness</option>
+                    <option value="BreastChanges">Breast Changes</option>
+                </select>
+            </div>
+            <div class="report_details">
+                <label for="imunizations">Immunizations:</label><br>
+                <select name="immunizations">
+                    <option value="none_immunizations">none</option>
+                    <option value="influenza">Influenza</option>
+                    <option value="Tdap">Acelludar Pertussis Viccine(Tdap)</option>
+                    <option value="MMR_combined_vaccine">MMR combined vaccine</option>
+                    <option value="RotaVirus">Rota Virus</option>
+                    <option value="Smallpox">Smallpox</option>
+                    <option value="YellowFever">YellowFever</option>
+                    <option value="tetanusToxoid">Tetanus Toxoid</option>
+                    <option value="diphtheriaToxoid">reduced Diphtheria Toxoid</option>
+                </select>
+            </div>
+            <div class="report_details_note hidden_page">
+                <label for="Doctorreport">Doctor Note:</label><br>
+                <input type="text" name="doctorreport" placeholder="Fill in the blank" maxlength="300">
+            </div>
+            <div class="button_container ">
+              <input id="showMoreButton" class="RegisterButton" type="button" name="report_button1" value="Create Report">         
+                <input id="RegisterButton2" class="RegisterButton" type="Submit" name="report_button" value="Save">
+              </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="Pregnancy_report.js"></script>
+</body>
+</html>

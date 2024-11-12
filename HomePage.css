@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,500;1,400;1,600;1,700&display=swap');
+
+*{
+    margin:0;
+    font-family: "Poppins",sans-serif;
+}
+
+.header .top_header{
+    height: 50px;
+    background-color:rgb(192, 196, 195);
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 20px;
+}
+
+.header .top_header .contacts{
+    display: flex;
+    height: 50px;
+    overflow: hidden;
+}
+.header .top_header .contacts div{
+    display: flex;
+    align-items: center;
+    color: rgb(16, 16, 16);
+}
+.header .top_header .contacts div:first-child{
+    margin-right: 30px;
+}
+.header .top_header .contacts img{
+    height: 40px;
+}
+.transparent_button{
+    background: none;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    padding: 0 20px;
+    transition: 1s;
+    height: 40px;
+}
+.transparent_button:hover{
+    background: rgb(208, 230, 222);
+    padding: 0 24px;
+}
+.header .brand .logo{
+    font-size: 1.5rem;
+    color:var(--dark-color);
+    text-decoration: none;
+    height: 100%;
+    position:relative;
+    top: 25%;
+}
+.header .brand .logo i{
+    font-size: 1.5rem;
+    color:var(--dark-color);
+    height: 100%;
+}
+.header .brand .logo b{
+    font-size: 1.5rem;
+    color: var(--black);
+}
+.header .navigation{
+    background-color: rgb(144, 238, 144);
+    height:80px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 25px;
+    box-sizing: border-box;
+}
+
+.header .navigation .brand{
+    height: 100%;
+}
+
+.header .navigation .brand img{
+    height: 90%;
+}
+
+.header .navigation .nav{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin-left: 5rem;
+}
+.header .navigation .nav a{
+    margin: 0 18px;
+    color: black;
+    font-style: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.header .navigation .nav a:last-child{
+    margin-right: 0;
+}
+
+.header .navigation .nav a:hover{
+    text-decoration: underline;
+}
+
+
+/* hero section */
+.hero{
+    height: 600px;
+    background-image: url("gestational_diabetes_1663761891835_1673937016351_1673937016351.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 120px);
+    position: relative;
+    image-rendering: optimizeQuality;
+}
+
+.hero_overlay{
+    height: 84%;
+    position: absolute;
+    width: 100%;
+    background: linear-gradient(to right,rgba(0, 0, 0, 0.092)50%, rgba(255, 255, 255, 0.103)50% );
+    z-index: 0;
+    top: 18.5%;
+    image-rendering: optimizeQuality;
+}
+
+.hero .hero_inner{
+    z-index: 100000000;
+    width: 35%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: rgb(37, 14, 98);
+    position: absolute;
+    padding-left: 100px;
+}
+
+.hero .hero_inner p:first-child{
+    color: rgb(109, 7, 50);
+    font-family: "Poppins",sans-serif;
+    font-size: large;
+}
+
+.hero .hero_inner h3{
+    font-size: 2.3rem;
+    font-family:'noto-bold' ;
+    margin: 10px 0;
+    line-height: 50px;
+}
+.hero .hero_inner div{
+    margin: 30px 0;
+}
+.hero .hero_inner div a{
+    text-decoration: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+.container1{
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.box{
+    width: 30%;
+    float: left;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 7px 7px grey;
+    margin: 40px 20px;
+}
+.box img {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px 5px 0 0;
+    object-fit: cover;
+    image-rendering: optimizeQuality;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+.box h3{
+    margin-left: 15px;
+}
+.box p{
+    font-size: 16px;
+    line-height: 28px;
+    height: 40%;
+    padding: 0 15px 15px 15px;
+    overflow: hidden;
+}
+#btn{
+    background-color: teal;
+    color: #fff;
+    padding: 10px 15px;
+    margin: 15px;
+    border-radius: 5px;
+    float: right;
+}
+#btn:hover{
+    background-color: black;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}

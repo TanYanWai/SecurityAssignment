@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Messaging Page</title>
+  <link rel="stylesheet" type="text/css" href="Message.css">
+  <link rel="stylesheet" type="text/css" href="HomePage.css">
+</head>
+<body>
+    <header class="header">
+        <div class="top_header">
+            <div class="contacts">
+                <div class="contact_email">
+                    <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+                </div>
+                <div class="contact_phone">
+                    <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+                </div>
+            </div>
+            <div class="transparent_button">
+                <a href="Admin-add-appointment.html" class="buttonItSlef details">APPOINTMENT</a>
+            </div>
+        </div>
+    
+        <div class="navigation">
+            <div class="brand">
+                <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+            </div>
+            <div class="nav">
+               <a href="HomePage.html">Home</a >
+               <a href="admin.html">Live Queue</a >
+               <a href="Message.html">Send Message</a >
+               <a href="output_message.php">Receive Message</a >
+               <a href="Pregnancy_report1.html">Report</a >
+            </div>
+        </div>
+    </header>
+<div class="bg_message"></div>
+<div class="container">
+    <div class="message_container">
+        <div class="message_title">
+            <h2>Compose Message</h2>
+        </div>
+        <form method="post" action="send_message.php">
+            <div class="input_message1">
+                <label for="recipient_email">Recipient Email:</label>
+                <select name="recipient_email" id="recipient_email"></select> <!-- Remove the closing </div> tag here -->
+            </div>
+            <div class="input_message">
+                <label for="title">Title:</label>
+                <input class="form_input" type="text" name="title" id="title">
+            </div>
+            <div class="form_textarea">
+                <label class="form_textarea" for="description">Description:</label>
+                <textarea class="form_textarea1" name="description" id="description"></textarea>
+            </div>
+            <div class="button_message">
+                <input class="button_message1" type="submit" name="message_form_submit" value="Send">
+            </div>
+        </form>
+        </div>
+</div>
+<script>
+    var select = document.getElementById("recipient_email");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "populate_emails.php", true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var emails = JSON.parse(xhr.responseText);
+          for (var i = 0; i < emails.length; i++) {
+            var option = document.createElement("option");
+            option.value = emails[i];
+            option.text = emails[i];
+            select.appendChild(option);
+          }
+        } else {
+          console.error("Error: " + xhr.status);
+        }
+      }
+    };
+    xhr.send();
+  </script>
+</body>
+</html>

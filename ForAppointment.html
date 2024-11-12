@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="ForAppointment.css">
+    <link rel="stylesheet" href="HomePage.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<header class="header">
+    <div class="top_header">
+        <div class="contacts">
+            <div class="contact_email">
+                <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+            </div>
+            <div class="contact_phone">
+                <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+            </div>
+        </div>
+        <div class="transparent_button">
+            <a href="Admin-add-appointment.html" class="buttonItSlef details">APPOINTMENT</a>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="brand">
+            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+        </div>
+        <div class="nav">
+           <a href="HomePage.html">Home</a >
+           <a href="admin.html">Live Queue</a >
+           <a href="Message.html">Send Message</a >
+           <a href="output_message.php">Receive Message</a >
+           <a href="Pregnancy_report1.html">Report</a >
+        </div>
+    </div>
+</header>
+
+<body>
+    <div class="appointment_background"></div>
+    <div class="Appointment_Container">
+        <div class="Appointment_details">
+            <div class="details_appointment_title" id="con1Title">
+                <h2>Book an appointment</h2>
+            </div>
+            <form>
+                <div class="details_appointment">
+                    <label class="details_appointment_title" for="Appointment_date">Appointment date :</label><br>
+                    <input class="appointmentInput" type="date" name="Appointment_date" id="appointmentDate" required>
+                </div>
+                <div class="details_appointment">
+                    <label class="details_appointment_title" for="Appointment_time">Appointment time :</label><br>
+                    <select class="appointmentInput-select" name="Appointment_time" id="appointmentTime" required>
+                        <option value="">Select a time</option>
+                    </select>
+                </div>
+                <div class="details_appointment">
+                    <label class="details_appointment_title" for="Appointment_email">Pregnancy email :</label><br>
+                    <input class="appointmentInput" type="email" name="Appointment_email" placeholder="Email" maxlength="30" required>
+                </div>
+                <div class="details_appointment">
+                    <label class="details_appointment_title" for="Appointment_name">Pregnancy name :</label><br>
+                    <input class="appointmentInput" type="text" name="Appointment_name" placeholder="Name" maxlength="30" required>
+                </div>
+                <div class="details_appointment">
+                    <label class="details_appointment_title" for="Appointment_room">Room number :</label><br>
+                    <select class="appointmentInput-select" name="Appointment_room" required>
+                        <option value="room 101">Room 101</option>
+                        <option value="room 102">Room 102</option>
+                        <option value="room 103">Room 103</option>
+                        <option value="room 104">Room 104</option>
+                    </select>
+                </div>
+                <div class="details Appointment_Button">
+                    <input class="buttonItSlef_appointment" type="submit" name="appointment_form_submit" value="Submit">
+                    <a href="output_appointment.php" class="buttonItSlef_details" id="registerButton">Veiw appointment</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    // AJAX request to get available times based on the selected date
+    document.getElementById('appointmentDate').addEventListener('change', function() {
+        var date = this.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'get_available_times.php?date=' + date, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('appointmentTime').innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+</html>

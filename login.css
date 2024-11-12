@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+
+*{
+    margin:0;
+}
+
+#mainContainer{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+#container1{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#container2{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#containerBox{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 80px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    width: 80%;
+}
+
+#container2{
+    background-image: url("https://www.mmarchitecturalphotography.com/chicago-architectural-photographer/uploads/2018/04/hospital-medical-facilities-center-education-building-photography.jpg");
+    background-image: no-repeat;
+    background-size: cover;
+    
+}
+
+.details{
+    margin: 10px 0 5px 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#con1Title{
+    text-align: center;
+    font-size: 30px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 15px;
+}
+
+.subtitle{
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.loginInput{
+    margin-top: 5px;
+    height: 50px;
+    width: 200px;
+    border-radius: 15px;
+    border: none;
+    background-color: ghostwhite;
+    padding: 0 15px 0 15px;
+}
+
+#con2Title{
+    font-size: 60px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    letter-spacing: 5px;
+    color: white;
+}
+
+#detailsCon2{
+    font-size: 25px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.buttonItSlef {
+    margin-top: 25px;
+    height: 40px;
+    width: 150px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: #89253e;
+    color: white;
+    transition: 0.3s;
+}
+
+.buttonItSlef:hover{
+    transition: 0.3s;
+    background-color: #89253e;
+    transform: scale(1.2);
+    transform-origin: center center;
+}
+
+.buttonItSlef:active{
+    transition: 0.3s;
+    background-color: #ffffff;
+    transform: scale(1);
+    transform-origin: center center;
+}
+
+#registerButton {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.loginButton {
+    display: flex;
+    justify-content: center;
+}

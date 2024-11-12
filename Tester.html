@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automatic Queuing System</title>
+  <link rel="stylesheet" type="text/css" href="Tester.css">
+</head>
+<body>
+  <h1>Welcome to the Queue</h1>
+
+  <div class="rooms">
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-1">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-2">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-3">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-4">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+    </div>
+  </div>
+  
+  <div class="room-titles">
+    <div class="room-title">ROOM 1</div>
+    <div class="room-title">ROOM 2</div>
+    <div class="room-title">ROOM 3</div>
+    <div class="room-title">ROOM 4</div>
+  </div>
+
+    <div class="clock">
+      <span id="clock-time"></span>
+    </div>
+
+  <div class="video-container">
+    <video id="video" src="yt5s.io-Fetal development month by month.mp4" autoplay muted></video>
+  </div>
+  
+  <div class="back-button">
+    <a href="LiveQueue.html">Back</a>
+  </div>
+
+
+  <form action="Server.php" method="POST">
+    <input type="hidden" name="room" value="1">
+    <input type="hidden" name="servingNumber" value="1">
+  </form>
+
+  <script src="Tester.js"></script>
+</body>
+</html>

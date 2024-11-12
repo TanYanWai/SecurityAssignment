@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="login.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div id="mainContainer">
+        <div id="container1">
+            <div id="containerBox">
+                <div class="details" id="con1Title">
+                    <h2>Login to your account</h2>
+                </div>
+                <form action="login.php" method="post">
+                    <div class="details">
+                        <label class="subtitle" for="Login_email">Your email</label><br>
+                        <input class="loginInput" type="email" name="Login_email" placeholder="Email" maxlength="30" required>
+                    </div>
+                    <div class="details">
+                        <label class="subtitle" for="Login_password">Your Password</label><br>
+                        <input class="loginInput" type="password" name="Login_password" placeholder="Password" maxlength="30" required>
+                    </div>
+                    <div class="details loginButton">
+                        <input class="buttonItSlef details" id="loginButton" type="submit" name="login_form_submit" value="Sign in">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="container2">
+            <div class="details">
+                <h1 id="con2Title">New Here?</h1>
+            </div>
+            <div class="details" id="detailsCon2">
+                <h6>Sign up and discover a great</h6>
+                <h6>amount of new opportunities</h6>
+            </div>
+            <div class="details" id="registerButton">
+                <a href="Sign_up1.html" class="buttonItSlef details" id="registerButton">Register now!</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

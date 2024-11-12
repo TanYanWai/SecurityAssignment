@@ -1,0 +1,31 @@
+.message-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height:1000px;
+    overflow-y: scroll;
+  }
+  
+  .message-container {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #f2c7c7;
+    background-color: #fadcdc;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .message-sender {
+    font-weight: bold;
+  }
+  
+  .message-title,
+  .message-description {
+    margin-left: 10px;
+  }

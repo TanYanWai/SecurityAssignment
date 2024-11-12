@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="signup.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="All_container">
+        <div id="Cover_all_container">
+            <div id="containerBox_1">
+                <div class="details" id="firstCon1Title">
+                    <h2>Already created account?</h2>
+                </div>
+                <div class="container1_detail2" id="secondCon1Title">
+                    <h6>Heven't create an account yet? </h6> 
+                    <h6>create now! It will bring</h6>
+                    <h6>benefits pragnancy</h6>
+                </div>
+                <div class="RegisterLogInButton" id="RegisterButton1">
+                    <input id="loginBotton_register" class="RegisterButton" type="button" name="login_form_submit" value="Login page">
+                </div>
+            </div>
+        </div>
+
+
+        <div id="containerBox_2">
+            <div id="containerBox2-info" class="scrollable-container">
+                <div id="containerBox_2_title">
+                    <label class="register_title" id="register_title" for="register_address_title">Register</label><br>
+                </div>
+            <form id="forInput" action="Test3.php" method="post">
+                <div class="register_details">
+                    <label class="ResgisterSub" for="Login_email">Your email</label><br>
+                    <input class="RegisterInput" id="registerEmail" type="email" name="Sign_up_details_email" placeholder="Email">
+                </div>
+                <div class="register_details">
+                    <label class="ResgisterSub" for="Login_pass">Your Password</label><br>
+                    <input class="RegisterInput" id="registerPass" type="text" name="Sign_up_details_pass" placeholder="Password">
+                </div>
+                <div class="register_details">
+                    <label class="ResgisterSub" for="IC_number">Your IC number</label><br>
+                    <input class="RegisterInput" id="registerIc" type="text" name="Sign_up_details_IC" placeholder="Ic number">
+                </div>
+                <div class="register_details">
+                    <label class="ResgisterSub" for="Name">Your Name</label><br>
+                    <input class="RegisterInput" id="registerName" type="text" name="Sign_up_details_Name" placeholder="Name">
+                </div>
+                <div class="register_details">
+                    <label class="ResgisterSub" for="Name">Your Phone Number</label><br>
+                    <input class="RegisterInput" id="registerPhoneNumber" type="text" name="Sign_up_details_PhoneNumber" placeholder="Phone Number">
+                </div>
+                <div id="register_address">
+                    <label class="register_title" for="register_address_title">Address</label><br>
+                </div>
+                <div class="register_address_details">
+                    <label class="ResgisterSub" for="register_address">Your Address</label><br>
+                    <input class="RegisterInput"  id="registerAddress1" type="text" name="Sign_up_details_address1" placeholder="Address line 1">
+                    <input class="RegisterInput" id="registerAddress2" type="text" name="Sign_up_details_address2" placeholder="Address line 2">
+                </div>
+                <div class="register_address_details">
+                    <label class="ResgisterSub" for="register_address">Your City</label><br>
+                    <input id="ForRegisterAddressCity" class="RegisterInput" type="text" name="Sign_up_details_city" placeholder="City">
+                </div>
+                <div class="register_address_details">
+                    <label class="ResgisterSub" for="register_address">Your State</label><br>
+                    <input id="ForRegisterAddressSate" class="RegisterInput" type="text" name="Sign_up_details_State" placeholder="State">
+                </div>
+                    <div class="register_address_details">
+                    <label class="ResgisterSub" for="register_address">Your Postal / Zip Code</label><br>
+                    <input id="ForRegisterAddressPostal" class="RegisterInput" type="text" name="Sign_up_details_postal" placeholder="Postal / Zip Code">
+                </div>
+                <div class="register_address_details">
+                    <label class="ResgisterSub" for="register_address">Book your first appointment</label><br>
+                    <input type="date" id="checkout-date" name="Sign_up_details_firstAppointment" required>
+                </div>
+                <div id="buttonRow">
+                    <div id="details_RegisterButton">
+                        <input id="RegisterButton" type="submit" name="save_sign_up" value="Register">
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

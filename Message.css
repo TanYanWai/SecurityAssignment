@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,500;1,400;1,600;1,700&display=swap');
+
+*{
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bg_message{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("https://relay.firefox.com/_next/static/media/features-reply-to-emails-anon.f9e57d5c.svg");
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjust if necessary */
+}
+
+.message_container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 800px; /* Adjust width as needed */
+    max-width: 100%;
+    background-color:rgb(249, 242, 249);
+    opacity: 0.98;
+    transition: all 1s;
+}
+
+.message_container:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px 0 #797878;
+    background-color: rgb(251, 237, 251);
+}
+
+.message_title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.form_input {
+    width: 200px;
+    padding: 5px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.form_input:focus {
+    outline: none;
+    border-color: #6dabe4;
+}
+
+.input.message{
+    width: 200px;
+    padding: 5px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+#recipient_email{
+    width: 200px;
+    padding: 5px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+
+
+.form_textarea1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.form_textarea1 label {
+    margin-bottom: 5px;
+}
+
+.form_textarea textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button_message1 {
+    display: block;
+    margin: 0 auto;
+    padding: 2px 15px;
+    font-size: 15px;
+    background-color: #f4bdf7;
+    color: #fbfafa;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: fit-content; 
+    transition: all 1s;
+    margin-top: 15px;
+}
+
+.button_message1:hover {
+    transform: scale(1.05);
+    background-color: #f488fa;
+}
