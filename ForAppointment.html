@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="transparent_button">
-            <a href="Admin-add-appointment.html" class="buttonItSlef details">APPOINTMENT</a>
+            <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         </div>
         <div class="nav">
            <a href="HomePage.html">Home</a >
-           <a href="admin.html">Live Queue</a >
+           <a href="LiveQueue.html">Live Queue</a >
            <a href="Message.html">Send Message</a >
            <a href="output_message.php">Receive Message</a >
            <a href="Pregnancy_report1.html">Report</a >
@@ -47,7 +47,7 @@
             <div class="details_appointment_title" id="con1Title">
                 <h2>Book an appointment</h2>
             </div>
-            <form>
+            <form method="post" action="ForAppointment.php">
                 <div class="details_appointment">
                     <label class="details_appointment_title" for="Appointment_date">Appointment date :</label><br>
                     <input class="appointmentInput" type="date" name="Appointment_date" id="appointmentDate" required>
@@ -77,20 +77,19 @@
                 </div>
                 <div class="details Appointment_Button">
                     <input class="buttonItSlef_appointment" type="submit" name="appointment_form_submit" value="Submit">
-                    <a href="output_appointment.php" class="buttonItSlef_details" id="registerButton">Veiw appointment</a>
                 </div>
             </form>
         </div>
     </div>
-</body>
+
 
 <script>
     // AJAX request to get available times based on the selected date
-    document.getElementById('appointmentDate').addEventListener('change', function() {
+    document.getElementById('appointmentDate').addEventListener('change', function () {
         var date = this.value;
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'get_available_times.php?date=' + date, true);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 document.getElementById('appointmentTime').innerHTML = xhr.responseText;
             }
@@ -98,5 +97,5 @@
         xhr.send();
     });
 </script>
-
+</body>
 </html>

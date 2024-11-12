@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automatic Queuing System</title>
+  <link rel="stylesheet" type="text/css" href="LiveQueue.css">
+  <link rel="stylesheet" type="text/css" href="HomePage.css">
+</head>
+<header class="header">
+  <div class="top_header">
+      <div class="contacts">
+          <div class="contact_email">
+              <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+          </div>
+          <div class="contact_phone">
+              <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+          </div>
+      </div>
+      <div class="transparent_button">
+          <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
+      </div>
+  </div>
+
+  <div class="navigation">
+      <div class="brand">
+          <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+      </div>
+      <div class="nav">
+         <a href="HomePage.html">Home</a >
+         <a href="LiveQueue.html">Live Queue</a >
+         <a href="Message.html">Send Message</a >
+         <a href="output_message.php">Receive Message</a >
+         <a href="Pregnancy_report1.html">Report</a >
+      </div>
+  </div>
+</header>
+<body>
+  <h1>Welcome to the Queue</h1>
+
+  <div class="rooms">
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-1">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+      <div class="next-button">
+        <button class="next-button-1">Next</button>
+      </div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-2">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+      <div class="next-button">
+        <button class="next-button-2">Next</button>
+      </div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-3">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+      <div class="next-button">
+        <button class="next-button-3">Next</button>
+      </div>
+    </div>
+    <div class="room">
+      <h2>NOW SERVING:</h2>
+      <span id="serving-number-4">-</span>
+      <div class="room-message">Please wait for your turn!</div>
+      <div class="next-button">
+        <button class="next-button-4">Next</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="room-titles">
+    <div class="room-title">ROOM 1</div>
+    <div class="room-title">ROOM 2</div>
+    <div class="room-title">ROOM 3</div>
+    <div class="room-title">ROOM 4</div>
+  </div>
+
+    <div class="clock">
+      <span id="clock-time"></span>
+    </div>
+
+  <div class="video-container">
+    <video id="video" src="yt5s.io-Fetal development month by month.mp4" autoplay muted></video>
+  </div>
+
+
+  <form action="LiveQueue.php" method="POST">
+    <input type="hidden" name="room" value="1">
+    <input type="hidden" name="servingNumber" value="1">
+  </form>
+
+  <script src="LiveQueue.js"></script>
+</body>
+</html>

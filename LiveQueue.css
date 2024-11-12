@@ -1,0 +1,136 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f7dede;
+}
+
+h1 {
+  font-size: 48px;
+  position: relative;
+  background: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+  background-size: 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 400% 50%;
+  }
+}
+
+.rooms {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+
+.room {
+  position: relative;
+  padding: 40px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+  width: 300px;
+  height: 200px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.room:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+span {
+  font-size: 90px;
+  color: #333;
+  font-weight: bold;
+}
+
+.rooms .room {
+  margin-right: 20px;
+}
+
+.room-titles {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.room-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.room-message {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.clock {
+  font-family: 'Arial', sans-serif;
+  position: fixed;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: rainbow 3s linear infinite;
+}
+
+
+.back-button {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  color: #333;
+  padding: 10px 20px;
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+.video-container {
+  width: 500px;
+  height: 240px;
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+}
+
+.next-button{
+    position: relative;
+    top: -25px;
+}
+

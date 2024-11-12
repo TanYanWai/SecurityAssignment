@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Dynamic Calendar JavaScript | CodingNepal</title>
+    <link rel="stylesheet" href="Admin-add-appointment.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <p class="current-date"></p>
+            <div class="icons">
+                <span id="prev"><</span>
+                <span id="next">></span>
+            </div>
+        </header>
+        <div class="calendar">
+            <ul class="weeks">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+            <ul class="days"></ul>
+        </div>
+
+        <div class="form-container">
+            <h2>Appointment Form</h2>
+            <form id="forInput" action="Admin-add-appointment.php" method="post">
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="contract" name="contract" placeholder="Contract" required>
+                <input type="text" id="address" name="address" placeholder="Address" required>
+                <label for="time">Time Selected:</label>
+                <select id="time" name="time">
+                    <option value="9am-10am">9am-10am</option>
+                    <option value="11am-12pm">11am-12pm</option>
+                    <option value="2pm-3pm">2pm-3pm</option>
+                    <option value="4pm-5pm">4pm-5pm</option>
+                    <option value="5pm-6pm">5pm-6pm</option>
+                </select>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+
+            <div id="successMessage" style="display: none;">
+                Successful!
+            </div>
+        </div>
+
+    <script src="Admin-add-appointment.js"></script>
+</body>
+</html>

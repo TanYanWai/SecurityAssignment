@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Messaging Page</title>
+</head>
+<body>
+  <h2>Compose Message</h2>
+  <form method="post" action="send_message.php">
+    <label for="recipient_email">Recipient Email:</label>
+    <select name="recipient_email" id="recipient_email">
+    </select>
+    <br><br>
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" required>
+    <br><br>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" required></textarea>
+    <br><br>
+    <input type="submit" value="Send Message">
+  </form>
+
+  <script>
+    // Fetch user emails using AJAX
+    var select = document.getElementById("recipient_email");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "populate_emails.php", true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var emails = JSON.parse(xhr.responseText);
+          for (var i = 0; i < emails.length; i++) {
+            var option = document.createElement("option");
+            option.value = emails[i];
+            option.text = emails[i];
+            select.appendChild(option);
+          }
+        } else {
+          console.error("Error: " + xhr.status);
+        }
+      }
+    };
+    xhr.send();
+  </script>
+</body>
+</html>

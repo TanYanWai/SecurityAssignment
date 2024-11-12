@@ -1,0 +1,103 @@
+
+html, body{
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.bg-container{
+    background-image: url("https://img.livestrong.com/640/cme-data/getty%2F64e12813962641eeb237614567c7362a.jpg");
+    background-size:contain;
+    background-size:cover;
+    background-image:cover;
+    border:5px solid rgb(234, 210, 210);
+    height:100%;
+    width:100%;
+    box-sizing:border-box;
+    background-repeat: no-repeat;
+}
+
+
+.form-container_login{
+    border: 10px solid black;
+      width:250px;
+      height: auto;
+      padding: 60px 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px 0 #000;
+      margin: auto;
+      position: relative;
+      top: 200px;
+  }
+  
+  .backgroundImage_login{
+    margin: 0;
+    border: 10px solid black;
+    background-image: url("https://pica.zhimg.com/v2-cbeeb86e37e87ad4f59bc44766460c5b_720w.jpg?source=172ae18b");
+      background-size:cover;
+      height:100vh;
+      background-repeat: no-repeat;
+  }
+  
+  .user-img{
+      background:url(../image/user.png);
+      width: 70px;
+      height: 70px;
+      background-size: 100%;
+      position: absolute;
+      top: -40px;
+      left: 120px;
+     
+  
+  }
+  
+  ul.list{
+  list-style-type: none;
+  text-align: center;
+  padding: 0;
+  }
+  
+  ul.list li{
+      width: 250px;
+      margin-bottom: 15px; 
+  }
+  
+  ul.list li input{ 
+      width: 250px;
+      text-align: center;
+      padding: 8px 0px;
+      border:none;
+      background-color: #d3d3d3;
+      border-radius: 5px;
+  }
+  
+  
+  ul.list li input[type="button"]{
+      background-color: rgb(69, 166, 193);
+      color:rgb(255, 255, 255);
+      border-radius: 8px;
+      cursor:pointer;
+      font-size: large;
+      transition: opacity 0.7s;
+      box-shadow: 5px 5px 10px black(0, 0, 0, 0.15);
+  
+    }
+    
+    .login-button:hover {
+      transition: 1s;
+      opacity: 0.7;
+    }
+  
+    .login-button:active{
+      background-color: red;
+    }
+  
+    ul.list li:nth-child(5){
+      color: rgb(8, 108, 166);
+    }
+
+    https://d.newsweek.com/en/full/2096815/astronaut-spaceman-do-spacewalk.jpg
+
+    https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRfL8l6_v63s0L-c6OhHORSy2yORS43MB5sCMjLz1BLg&s

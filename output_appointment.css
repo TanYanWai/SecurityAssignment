@@ -1,0 +1,69 @@
+.BgAdminControlAppointment{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("https://www.bookitlive.net/content/wp-content/uploads/2018/10/health-wellbeing-appointments.jpg");
+    background-size: cover;
+}
+
+#containerAdmin_appointment {
+    max-width: 700px;
+    height: 600px;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 20px;
+    background-color: rgb(248, 244, 248);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    border-radius: 4px;
+    opacity: 0.95;
+    border: 1px solid #acaaaa;
+  }
+  
+  .container_patient {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgb(248, 234, 248);
+    max-width: 500px;
+  }
+  
+  .containerPatientTitle {
+    margin-bottom: 10px;
+    position: relative;
+    text-align: center;
+  }
+  
+  .containerPatientTitle-label {
+    font-weight: bold;
+  }
+  
+  .detail-row {
+    margin-bottom: 5px;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+  }
+  
+  .detail-value {
+    margin-left: 5px;
+  }
+
+  #searchAppointment{
+    margin-bottom: 20px;
+  }
+
+  .pregnancy_detail_title{
+    font-size: 24px;
+  }
+
+  #Admin_appointment_title{
+    margin-top: 30px;
+  }

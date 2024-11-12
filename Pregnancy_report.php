@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 $server_name = "localhost";
 $username = "root";
 $password = "";
-$database_name = "Assignment";
+$database_name = "assignment";
 
 $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
@@ -89,33 +89,36 @@ if (isset($_POST['report_button'])) {
             </head>
             <body>
             <header class="header">
-                <div class="top_header">
-                    <div class="contacts">
-                        <div class="contact_email">
-                            <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
-                        </div>
-                        <div class="contact_phone">
-                            <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
-                        </div>
-                    </div>
-                    <button class="transparent_button">APPOINTMENT</button>
-                </div>
-    
-                <div class="navigation">
-                    <div class="brand">
-                        <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
-                    </div>
-                    <div class="nav">
-                       <a href="HomePage.html">Home</a >
-                       <a href="LiveQueue.html">Live Queue</a >
-                       <a href="Message.html">Notification</a >
-                       <a href="output_message.php">Receive Message</a >
-                       <a href="Pregnancy_report1.html">Report</a >
-                    </div>
-                </div>
-            </header>
+    <div class="top_header">
+        <div class="contacts">
+            <div class="contact_email">
+                <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+            </div>
+            <div class="contact_phone">
+                <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+            </div>
+        </div>
+        <div class="transparent_button">
+            <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="brand">
+            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+        </div>
+        <div class="nav">
+           <a href="HomePage.html">Home</a >
+           <a href="LiveQueue.html">Live Queue</a >
+           <a href="Message.html">Send Message</a >
+           <a href="output_message.php">Receive Message</a >
+           <a href="Pregnancy_report1.html">Report</a >
+        </div>
+    </div>
+</header>
             ';
         
+        echo "<div class='bgcontainer'>";
         echo "<div class='container'>";
         echo "<div class='report_details'>";
         echo "<form>";

@@ -26,11 +26,11 @@
 
 .Appointment_details {
     padding: 20px;
-    border: 1px solid rgb(191, 249, 194);
+    border: 1px solid rgb(246, 224, 246);
     border-radius: 5px;
     width: 800px; /* Adjust width as needed */
     max-width: 100%;
-    background-color:rgb(233, 252, 234);
+    background-color:rgb(246, 235, 246);
     opacity: 0.90;
     transition: all 1s;
 }
@@ -38,7 +38,7 @@
 .Appointment_details:hover {
     transform: scale(1.01);
     box-shadow: 0 0 10px 0 #797878;
-    background-color: rgb(222, 248, 224);
+    background-color: rgb(246, 225, 246);
 }
 
 .details_appointment_title {

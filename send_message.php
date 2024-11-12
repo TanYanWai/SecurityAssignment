@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Assignment";
+$dbname = "assignment";
 
 
 $recipient_email = $_POST['recipient_email'];

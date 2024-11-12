@@ -4,13 +4,14 @@
     justify-content: center;
     height:1000px;
     overflow-y: scroll;
+    align-items: center; 
   }
   
   .message-container {
     margin-bottom: 20px;
     padding: 20px;
     border: 1px solid #f2c7c7;
-    background-color: #fadcdc;
+    background-color:rgb(255, 244, 255);
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -29,3 +30,15 @@
   .message-description {
     margin-left: 10px;
   }
+
+  .bg_message1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("https://relay.firefox.com/_next/static/media/features-reply-to-emails-anon.f9e57d5c.svg");
+    background-size: cover;
+  }
+

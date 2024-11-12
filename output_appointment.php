@@ -2,33 +2,55 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="Admin-Control-appointment.css">
+    <link rel="stylesheet" href="output_appointment.css">
+    <link rel="stylesheet" href="HomePage.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Appointments</title>
 </head>
+<header class="header">
+    <div class="top_header">
+        <div class="contacts">
+            <div class="contact_email">
+                <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+            </div>
+            <div class="contact_phone">
+                <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+            </div>
+        </div>
+        <div class="transparent_button">
+            <a href="ForAppointment.html" class="buttonItSlef details">APPOINTMENT</a>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="brand">
+            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+        </div>
+        <div class="nav">
+           <a href="HomePage.html">Home</a >
+           <a href="admin.html">Live Queue</a >
+           <a href="Message.html">Send Message</a >
+           <a href="output_message.php">Receive Message</a >
+           <a href="Pregnancy_report1.html">Report</a >
+        </div>
+    </div>
+</header>
 
 <body>
     <div class="BgAdminControlAppointment"></div>
     <div id="containerAdmin_appointment">
-        <ul class="navigationAdmin">
-            <li class="navigationAdmin-item"><a href="ViewAppointment.asp">View Appointment</a></li>
-            <li class="navigationAdmin-item"><a href="AddAppointment.asp">Add appointment</a></li>
-        </ul>
         <div id="Admin_appointment_title">
             <label class="pregnancy_detail_title" for="pragnancy_appointment">Check Appointment</label><br>
         </div>
-        <div class="searchinput">
-            <input id="searchAppointment" class="searchButton" type="text" name="buttonForSearch" value="Search">
-        </div>
-
+      
         <?php
         // Configuration
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $dbname = "Assignment";
+        $dbname = "assignment";
 
         // Create a connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -39,9 +61,8 @@
         }
 
         // Retrieve the appointment details from the database
-        $stmt = $conn->prepare("SELECT * FROM appointment");
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql = "SELECT * FROM appointment";
+        $result = $conn->query($sql);
 
         // Check if appointments exist
         if ($result->num_rows > 0) {
@@ -74,13 +95,11 @@
             echo "No appointments found.";
         }
 
-        // Close the statement and connection
-        $stmt->close();
+        // Close the connection
         $conn->close();
         ?>
 
     </div>
 
 </body>
-
 </html>

@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Assignment";
+$dbname = "assignment";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -23,18 +23,16 @@ $appointmentEmail = $_POST['Appointment_email'];
 $appointmentName = $_POST['Appointment_name'];
 $appointmentRoom = $_POST['Appointment_room'];
 
-// Prepare and execute the SQL query
-$stmt = $conn->prepare("INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentEmail, $appointmentName, $appointmentRoom);
-$stmt->execute();
+// Create SQL query directly
+$sql = "INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
+        VALUES ('$appointmentDate', '$appointmentTime', '$appointmentEmail', '$appointmentName', '$appointmentRoom')";
 
-if ($stmt->affected_rows > 0) {
+if ($conn->query($sql) === TRUE) {
     echo "Data inserted successfully";
 } else {
-    echo "Error inserting data";
+    echo "Error inserting data: " . $conn->error;
 }
 
-// Close the statement and connection
-$stmt->close();
+// Close the connection
 $conn->close();
 ?>

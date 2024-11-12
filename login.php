@@ -2,34 +2,29 @@
 $server_name = "localhost";
 $username = "root";
 $password = "";
-$database_name = "Assignment";
+$database_name = "assignment";
 
+// Create connection
 $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
+// Check connection
 if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
 
+// Check if the login form is submitted
 if (isset($_POST['login_form_submit'])) {
     $email = $_POST['Login_email'];
     $password = $_POST['Login_password'];
 
-    $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = ? AND sign_up_details_pass = ?";
+    // Insecure query with no parameter binding
+    $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = '$email' AND sign_up_details_pass = '$password'";
 
-    $stmt = mysqli_prepare($conn, $sql_query);
-
-    if (!$stmt) {
-        die("Query Preparation Failed: " . mysqli_error($conn));
-    }
-
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-    mysqli_stmt_execute($stmt);
-
-    // Get the result
-    $result = mysqli_stmt_get_result($stmt);
+    $result = mysqli_query($conn, $sql_query);
 
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
+            // Redirect to HomePage if login is successful
             header("Location: HomePage.html");
             exit();
         } else {
@@ -38,9 +33,8 @@ if (isset($_POST['login_form_submit'])) {
     } else {
         echo "Query Execution Failed: " . mysqli_error($conn);
     }
-
-    mysqli_stmt_close($stmt);
 }
 
+// Close the connection
 mysqli_close($conn);
 ?>

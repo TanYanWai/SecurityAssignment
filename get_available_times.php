@@ -1,24 +1,19 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-// Configuration
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "Assignment";
+$dbname = "assignment";
 
-// Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Retrieve the selected date from the query string
 $date = $_GET['date'];
 
-// Prepare and execute the SQL query to retrieve booked times for the selected date
 $stmt = $conn->prepare("SELECT DISTINCT Appointment_time FROM appointment WHERE Appointment_date = ?");
 $stmt->bind_param("s", $date);
 $stmt->execute();
@@ -29,7 +24,6 @@ while ($row = $result->fetch_assoc()) {
     $bookedTimes[] = $row["Appointment_time"];
 }
 
-// Generate select options excluding booked times
 $availableTimes = array(
     "08.00-09:00",
     "09:00-10:00",
@@ -52,7 +46,6 @@ foreach ($availableTimes as $time) {
 
 echo $options;
 
-// Close the statement and connection
 $stmt->close();
 $conn->close();
 ?>
