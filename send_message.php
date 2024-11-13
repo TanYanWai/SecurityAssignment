@@ -4,39 +4,47 @@ $username = "root";
 $password = "";
 $dbname = "assignment";
 
-// Get the form data
+// Get data from form
 $recipient_email = $_POST['recipient_email'];
 $title = $_POST['title'];
 $description = $_POST['description'];
 
-// Create a new connection
+// Create database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check the connection
+// Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Prepare the SQL statement
-$stmt = $conn->prepare("INSERT INTO messages (sender_email, recipient_email, title, description) VALUES (?, ?, ?, ?)");
+// Prepare the SQL query
+$sql = "INSERT INTO messages (sender_email, recipient_email, title, description)
+        VALUES ('admin@gmail.com', '$recipient_email', '$title', '$description')";
 
-// Bind the parameters to the prepared statement
-$stmt->bind_param("ssss", $sender_email, $recipient_email, $title, $description);
+if ($conn->query($sql) === TRUE) {
+    session_start();
+    $_SESSION['recipient_email'] = $recipient_email;
 
-// Set the sender email value
-$sender_email = "admin@gmail.com";
+    // Log message activity
+    $log_file = __DIR__ . "/logs/user_activity.log";  // Path to the log file
+    $current_time = date("Y-m-d H:i:s");
+    $log_message = "User sent a message to $recipient_email with title '$title' at $current_time\n";
 
-// Execute the statement
-if ($stmt->execute()) {
-  session_start();
-  $_SESSION['recipient_email'] = $recipient_email;
+    // Ensure the logs directory exists
+    if (!file_exists(__DIR__ . "/logs")) {
+        mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
+    }
 
-  echo "Message sent successfully!";
+    // Write to the log file
+    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+        echo "Error logging user activity!";
+    }
+
+    // Success message
+    echo "Message sent successfully!";
 } else {
-  echo "Error: " . $stmt->error;
+    echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
-// Close the statement and connection
-$stmt->close();
 $conn->close();
 ?>

@@ -1,0 +1,40 @@
+User with email Testing@gmail.com attempted to log in at 2024-11-13 14:20:24
+User with email Testing@gmail.com successfully logged in at 2024-11-13 14:20:24
+User with email Testing@gmail.com attempted to log in at 2024-11-13 14:22:11
+User with email Testing@gmail.com successfully logged in at 2024-11-13 14:22:11
+User with email Testing@gmail.com attempted to log in at 2024-11-13 14:26:04
+User with email Testing@gmail.com successfully logged in at 2024-11-13 14:26:04
+User sent a message to Testing@gmail.com with title 'Test 1' at 2024-11-13 14:26:47
+Attempted to insert appointment for edw (email: rec@dewd) on 2024-11-22 at 08.00-09:00 in room room 101. Time: 2024-11-13 14:28:11
+Successfully inserted appointment for edw (email: rec@dewd) on 2024-11-22 at 08.00-09:00 in room room 101. Time: 2024-11-13 14:28:11
+User action recorded on 2024-11-13 14:37:02
+User action recorded on 2024-11-13 14:43:49
+User action recorded on 2024-11-13 14:49:22
+User action recorded on 2024-11-13 14:50:28
+User action recorded on 2024-11-13 15:04:14
+User action recorded on 2024-11-13 15:04:20
+User with email Testing@gmail.com attempted to log in at 2024-11-13 15:04:48
+User with email Testing@gmail.com successfully logged in at 2024-11-13 15:04:48
+User action recorded on 2024-11-13 15:05:24
+User action recorded on 2024-11-13 15:09:44
+User action recorded on 2024-11-13 15:09:48
+User action recorded on 2024-11-13 15:09:53
+User action recorded on 2024-11-13 15:14:51
+User action recorded on 2024-11-13 15:16:55
+[2024-11-13 15:16:55] Action: Search Report | IC Number: 111 | Month: 1
+User action recorded on 2024-11-13 15:18:32
+[2024-11-13 15:18:32] Action: Insert Report | IC Number: 1234 | Month: 1
+User action recorded on 2024-11-13 15:23:35
+User action recorded on 2024-11-13 15:24:07
+User action recorded on 2024-11-13 15:24:26
+[2024-11-13 15:24:26] Action: Search Report | IC Number: 111 | Month: 1
+User action recorded on 2024-11-13 15:24:32
+[2024-11-13 15:24:32] Action: Search Report | IC Number: 111 | Month: 1
+User action recorded on 2024-11-13 15:25:02
+User action recorded on 2024-11-13 15:25:50
+User action recorded on 2024-11-13 15:28:03
+User action recorded on 2024-11-13 15:28:08
+User action recorded on 2024-11-13 15:29:18
+[2024-11-13 15:29:18] Action: Search Report | IC Number: 111 | Month: 1
+User action recorded on 2024-11-13 15:29:53
+[2024-11-13 15:29:53] Action: Insert Report | IC Number: 12345 | Month: 1
