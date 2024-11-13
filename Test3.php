@@ -13,6 +13,14 @@ if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
 
+// Define AES-256 encryption settings
+define('AES_KEY', 'your_32_character_key_here'); // Must be 32 characters for AES-256
+define('AES_IV', 'your_16_character_iv'); // Must be 16 characters
+
+function aes_encrypt($data, $key, $iv) {
+    return openssl_encrypt($data, 'AES-256-CBC', $key, 0, $iv);
+}
+
 if (isset($_POST['save_sign_up'])) {
     // Get the form data
     $Sign_up_details_email = $_POST['Sign_up_details_email'];
@@ -27,6 +35,14 @@ if (isset($_POST['save_sign_up'])) {
     $Sign_up_details_postal = $_POST['Sign_up_details_postal'];
     $Sign_up_details_firstAppointment = $_POST['Sign_up_details_firstAppointment'];
 
+    // Validate IC length
+    if (strlen($Sign_up_details_IC) != 12 || !ctype_digit($Sign_up_details_IC)) {
+        die("Error: IC number must be exactly 12 digits.");
+    }
+
+    // Encrypt the IC number using AES-256
+    $encrypted_IC = aes_encrypt($Sign_up_details_IC, AES_KEY, AES_IV);
+
     // Hash the password
     $hashed_password = password_hash($Sign_up_details_pass, PASSWORD_BCRYPT);
 
@@ -37,7 +53,7 @@ if (isset($_POST['save_sign_up'])) {
     // Prepare the statement
     if ($stmt = mysqli_prepare($conn, $sql_query)) {
         // Bind the parameters to the prepared statement
-        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $hashed_password, $Sign_up_details_IC, $Sign_up_details_Name, $Sign_up_details_PhoneNumber, $Sign_up_details_address1, $Sign_up_details_address2, $Sign_up_details_city, $Sign_up_details_State, $Sign_up_details_postal, $Sign_up_details_firstAppointment);
+        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $hashed_password, $encrypted_IC, $Sign_up_details_Name, $Sign_up_details_PhoneNumber, $Sign_up_details_address1, $Sign_up_details_address2, $Sign_up_details_city, $Sign_up_details_State, $Sign_up_details_postal, $Sign_up_details_firstAppointment);
         
         // Execute the statement
         if (mysqli_stmt_execute($stmt)) {
