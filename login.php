@@ -1,4 +1,8 @@
 <?php
+require_once __DIR__ . '/includes/BruteForceProtection.php';
+date_default_timezone_set("Asia/Kuala_Lumpur"); // Or your local timezone
+
+
 $server_name = "localhost";
 $username = "root";
 $password = "";
@@ -9,12 +13,29 @@ $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
 // Check connection
 if (!$conn) {
-    die("Connection Failed: " . mysqli_connect_error());
+    echo "Connection Failed: " . mysqli_connect_error();
+    exit();
 }
+// Initialize brute force protection
+$bruteForce = new BruteForceProtection($conn);
 
 // Check if the login form is submitted
 if (isset($_POST['login_form_submit'])) {
-    $email = $_POST['Login_email'];
+    // Check if IP is blocked
+    if ($bruteForce->isIPBlocked()) {
+        $remainingTime = $bruteForce->getRemainingLockoutTime();
+        $minutes = floor($remainingTime / 60);
+        $seconds = $remainingTime % 60;
+        
+        if ($minutes > 0) {
+            echo "Too many failed attempts. Please try again in {$minutes} minute(s) and {$seconds} seconds.";
+        } else {
+            echo "Too many failed attempts. Please try again in {$seconds} seconds.";
+        }
+        exit();
+    }
+
+    $email = filter_var($_POST['Login_email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['Login_password'];
 
     // Use prepared statement to prevent SQL injection
@@ -22,11 +43,7 @@ if (isset($_POST['login_form_submit'])) {
     
     // Prepare the statement
     $stmt = mysqli_prepare($conn, $sql_query);
-    
-    // Bind the parameters
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password); // 'ss' means both parameters are strings
-    
-    // Execute the statement
+    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
     mysqli_stmt_execute($stmt);
     
     // Get the result
@@ -34,11 +51,16 @@ if (isset($_POST['login_form_submit'])) {
     
     if ($result) {
         if (mysqli_num_rows($result) == 1) {
-            // Redirect to HomePage if login is successful
-            header("Location: HomePage.html");
-            exit();
+            // Successful login
+            $bruteForce->recordLoginAttempt($email, true);
+            session_start();
+            $_SESSION['user_email'] = $email;
+            echo "HomePage.html"; // This will trigger the redirect
         } else {
-            echo "Incorrect email or password.";
+            // Failed login
+            $bruteForce->recordLoginAttempt($email, false);
+            $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
+            echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
         }
     } else {
         echo "Query Execution Failed: " . mysqli_error($conn);
@@ -46,6 +68,7 @@ if (isset($_POST['login_form_submit'])) {
 
     // Close the statement
     mysqli_stmt_close($stmt);
+    exit();
 }
 
 // Close the connection

@@ -18,7 +18,7 @@
                 <div class="details" id="con1Title">
                     <h2>Login to your account</h2>
                 </div>
-                <form action="login.php" method="post">
+                <form id="loginForm">
                     <div class="details">
                         <label class="subtitle" for="Login_email">Your email</label><br>
                         <input class="loginInput" type="email" name="Login_email" placeholder="Email" maxlength="30" required>
@@ -49,3 +49,35 @@
     </div>
 </body>
 </html>
+
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    formData.append('login_form_submit', 'true');
+        
+    fetch('login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.text();
+    })
+    .then(data => {
+        console.log('Received data:', data);
+        
+        if (data.trim() === 'HomePage.html') {
+            window.location.href = 'HomePage.html';
+        } else {
+            alert(data.trim());
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred: ' + error);
+    });
+});
+</script>
