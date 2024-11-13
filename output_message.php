@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 
 require_once 'includes/SecurityUtils.php';
 

@@ -1,4 +1,7 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+require_once 'includes/SecurityUtils.php';
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -14,26 +17,26 @@ if (!$conn) {
 }
 
 if (isset($_POST['report_button'])) {
-    // Initialize variables
-    $report_Ic_Number = isset($_POST['report_Ic_Number']) ? trim($_POST['report_Ic_Number']) : '';
-    $report_month = isset($_POST['report_month']) ? trim($_POST['report_month']) : '';
-    $report_first_name = isset($_POST['report_first_name']) ? trim($_POST['report_first_name']) : '';
-    $report_last_name = isset($_POST['report_last_name']) ? trim($_POST['report_last_name']) : '';
-    $report_patient_tel = isset($_POST['report_patient_tel']) ? trim($_POST['report_patient_tel']) : '';
-    $report_patient_birthday = isset($_POST['report_patient_birthday']) ? trim($_POST['report_patient_birthday']) : '';
-    $report_patient_email = isset($_POST['report_patient_email']) ? trim($_POST['report_patient_email']) : '';
-    $report_patient_address1 = isset($_POST['report_patient_address1']) ? trim($_POST['report_patient_address1']) : '';
-    $report_patient_address2 = isset($_POST['report_patient_address2']) ? trim($_POST['report_patient_address2']) : '';
-    $report_first_city = isset($_POST['report_first_city']) ? trim($_POST['report_first_city']) : '';
-    $report_state = isset($_POST['report_state']) ? trim($_POST['report_state']) : '';
-    $report_postal = isset($_POST['report_postal']) ? trim($_POST['report_postal']) : '';
-    $bloodPressure = isset($_POST['bloodPressure']) ? trim($_POST['bloodPressure']) : '';
-    $weight1 = isset($_POST['weight1']) ? trim($_POST['weight1']) : '';
-    $ultraSound = isset($_POST['ultraSound']) ? trim($_POST['ultraSound']) : '';
-    $fetalHeartRate = isset($_POST['fetalHeartRate']) ? trim($_POST['fetalHeartRate']) : '';
-    $maternalSymptoms = isset($_POST['maternalSymptoms']) ? trim($_POST['maternalSymptoms']) : '';
-    $immunizations = isset($_POST['immunizations']) ? trim($_POST['immunizations']) : '';
-    $doctorreport = isset($_POST['doctorreport']) ? trim($_POST['doctorreport']) : '';
+    // Initialize variables with sanitization
+    $report_Ic_Number = isset($_POST['report_Ic_Number']) ? SecurityUtils::sanitize_input($_POST['report_Ic_Number']) : '';
+    $report_month = isset($_POST['report_month']) ? SecurityUtils::sanitize_input($_POST['report_month']) : '';
+    $report_first_name = isset($_POST['report_first_name']) ? SecurityUtils::sanitize_input($_POST['report_first_name']) : '';
+    $report_last_name = isset($_POST['report_last_name']) ? SecurityUtils::sanitize_input($_POST['report_last_name']) : '';
+    $report_patient_tel = isset($_POST['report_patient_tel']) ? SecurityUtils::sanitize_input($_POST['report_patient_tel']) : '';
+    $report_patient_birthday = isset($_POST['report_patient_birthday']) ? SecurityUtils::sanitize_input($_POST['report_patient_birthday']) : '';
+    $report_patient_email = isset($_POST['report_patient_email']) ? SecurityUtils::sanitize_input($_POST['report_patient_email']) : '';
+    $report_patient_address1 = isset($_POST['report_patient_address1']) ? SecurityUtils::sanitize_input($_POST['report_patient_address1']) : '';
+    $report_patient_address2 = isset($_POST['report_patient_address2']) ? SecurityUtils::sanitize_input($_POST['report_patient_address2']) : '';
+    $report_first_city = isset($_POST['report_first_city']) ? SecurityUtils::sanitize_input($_POST['report_first_city']) : '';
+    $report_state = isset($_POST['report_state']) ? SecurityUtils::sanitize_input($_POST['report_state']) : '';
+    $report_postal = isset($_POST['report_postal']) ? SecurityUtils::sanitize_input($_POST['report_postal']) : '';
+    $bloodPressure = isset($_POST['bloodPressure']) ? SecurityUtils::sanitize_input($_POST['bloodPressure']) : '';
+    $weight1 = isset($_POST['weight1']) ? SecurityUtils::sanitize_input($_POST['weight1']) : '';
+    $ultraSound = isset($_POST['ultraSound']) ? SecurityUtils::sanitize_input($_POST['ultraSound']) : '';
+    $fetalHeartRate = isset($_POST['fetalHeartRate']) ? SecurityUtils::sanitize_input($_POST['fetalHeartRate']) : '';
+    $maternalSymptoms = isset($_POST['maternalSymptoms']) ? SecurityUtils::sanitize_input($_POST['maternalSymptoms']) : '';
+    $immunizations = isset($_POST['immunizations']) ? SecurityUtils::sanitize_input($_POST['immunizations']) : '';
+    $doctorreport = isset($_POST['doctorreport']) ? SecurityUtils::sanitize_input($_POST['doctorreport']) : '';
 
     // Basic validation
     $errors = [];
@@ -71,17 +74,39 @@ if (isset($_POST['report_button'])) {
     // Display errors if any
     if (!empty($errors)) {
         foreach ($errors as $error) {
-            echo "<p style='color:red;'>$error</p>";
+            echo "<p style='color:red;'>" . SecurityUtils::sanitize_output($error) . "</p>";
         }
     } else {
-        // Insert data into the database
-        $sql_query = "INSERT INTO pregnancy_report1 (report_Ic_Number, report_month, report_first_name, report_last_name, report_patient_tel, report_patient_birthday, report_patient_email, report_patient_address1, report_patient_address2, report_first_city, report_state, report_postal, bloodPressure, weight1, ultraSound, fetalHeartRate, maternalSymptoms, immunizations, doctorreport)
-        VALUES ('$report_Ic_Number', '$report_month', '$report_first_name', '$report_last_name', '$report_patient_tel', '$report_patient_birthday', '$report_patient_email', '$report_patient_address1', '$report_patient_address2', '$report_first_city', '$report_state', '$report_postal', '$bloodPressure', '$weight1', '$ultraSound', '$fetalHeartRate', '$maternalSymptoms', '$immunizations', '$doctorreport')";
+        // Use prepared statement instead of direct variables
+        $sql_query = "INSERT INTO pregnancy_report1 (report_Ic_Number, report_month, report_first_name, report_last_name, report_patient_tel, report_patient_birthday, report_patient_email, report_patient_address1, report_patient_address2, report_first_city, report_state, report_postal, bloodPressure, weight1, ultraSound, fetalHeartRate, maternalSymptoms, immunizations, doctorreport) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($sql_query);
+        $stmt->bind_param("sssssssssssssssssss", 
+            $report_Ic_Number, 
+            $report_month,
+            $report_first_name,
+            $report_last_name,
+            $report_patient_tel,
+            $report_patient_birthday,
+            $report_patient_email,
+            $report_patient_address1,
+            $report_patient_address2,
+            $report_first_city,
+            $report_state,
+            $report_postal,
+            $bloodPressure,
+            $weight1,
+            $ultraSound,
+            $fetalHeartRate,
+            $maternalSymptoms,
+            $immunizations,
+            $doctorreport
+        );
 
-        if (mysqli_query($conn, $sql_query)) {
-            echo "Data inserted successfully!";
+        if ($stmt->execute()) {
+            echo "<script>alert('Data inserted successfully!');</script>";
         } else {
-            echo "Error: " . $sql_query . "<br>" . mysqli_error($conn);
+            echo "<script>alert('Error: " . SecurityUtils::sanitize_output($stmt->error) . "');</script>";
         }
     }
     mysqli_close($conn);

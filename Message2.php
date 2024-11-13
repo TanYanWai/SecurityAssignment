@@ -26,7 +26,6 @@
     <h2>Message Output</h2>
 
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 
 require_once 'includes/SecurityUtils.php';
 
