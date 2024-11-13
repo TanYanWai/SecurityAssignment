@@ -74,7 +74,10 @@ if (isset($_POST['report_button'])) {
     // Display errors if any
     if (!empty($errors)) {
         foreach ($errors as $error) {
-            echo "<p style='color:red;'>" . SecurityUtils::sanitize_output($error) . "</p>";
+            echo "<script>
+                alert('" . SecurityUtils::sanitize_output($error) . "');
+                window.location.href = 'Pregnancy_report1.html';  // Optional: redirect back to message page
+            </script>";
         }
     } else {
         // Use prepared statement instead of direct variables
