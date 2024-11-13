@@ -1,4 +1,8 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+
 session_start();
 
 $servername = "localhost";
@@ -23,7 +27,26 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    echo "No messages found for the recipient email " . $_SESSION['recipient_email'];
+    echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alertDiv = document.createElement("div");
+            alertDiv.style.padding = "20px";
+            alertDiv.style.backgroundColor = "#f44336";
+            alertDiv.style.color = "white";
+            alertDiv.style.marginBottom = "15px";
+            alertDiv.style.position = "fixed";
+            alertDiv.style.top = "20px";
+            alertDiv.style.left = "50%";
+            alertDiv.style.transform = "translateX(-50%)";
+            alertDiv.style.borderRadius = "5px";
+            alertDiv.innerHTML = "No messages found for the recipient email: ' . SecurityUtils::sanitize_output($_SESSION['recipient_email']) . '";
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(function() {
+                alertDiv.style.display = "none";
+            }, 3000);  // Alert will disappear after 3 seconds
+        });
+    </script>';
 } else {
     echo '<div class="container">';
     echo '
@@ -122,9 +145,9 @@ if ($result->num_rows === 0) {
         echo '<div class="bg_message1"></div>';
         echo '<div class="message-container">';
         echo '<div class="message">';
-        echo '<div class="message-sender">Sender: ' . $row['sender_email'] . '</div>';
-        echo '<div class="message-title">Title: ' . $row['title'] . '</div>';
-        echo '<div class="message-description">Description: ' . $row['description'] . '</div>';
+        echo '<div class="message-sender">From: ' . SecurityUtils::sanitize_output($row['sender_email']) . '</div>';
+        echo '<div class="message-title">Title: ' . SecurityUtils::sanitize_output($row['title']) . '</div>';
+        echo '<div class="message-description">Description: ' . SecurityUtils::sanitize_output($row['description']) . '</div>';
         echo '</div>';
         echo '</div>';
     }

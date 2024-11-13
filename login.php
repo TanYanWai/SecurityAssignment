@@ -1,5 +1,8 @@
 <?php
-require_once __DIR__ . '/includes/BruteForceProtection.php';
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+require_once 'includes/BruteForceProtection.php';
 date_default_timezone_set("Asia/Kuala_Lumpur"); // Or your local timezone
 
 
@@ -35,8 +38,8 @@ if (isset($_POST['login_form_submit'])) {
         exit();
     }
 
-    $email = filter_var($_POST['Login_email'], FILTER_SANITIZE_EMAIL);
-    $password = $_POST['Login_password'];
+    $email = SecurityUtils::sanitize_input($_POST['Login_email']);
+    $password = SecurityUtils::sanitize_input($_POST['Login_password']);
 
     // Use prepared statement to prevent SQL injection
     $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = ? AND sign_up_details_pass = ?";

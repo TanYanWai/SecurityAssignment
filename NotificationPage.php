@@ -1,4 +1,8 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -14,9 +18,9 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $icNumber = $_POST['icNumber'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    $icNumber = SecurityUtils::sanitize_input($_POST['icNumber']);
+    $title = SecurityUtils::sanitize_input($_POST['title']);
+    $description = SecurityUtils::sanitize_input($_POST['description']);
 
     // Prepare the SQL statement with placeholders
     $stmt = $conn->prepare("INSERT INTO message (icNumber, title, description) VALUES (?, ?, ?)");
@@ -28,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         echo "Message sent successfully.";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . SecurityUtils::sanitize_output($stmt->error);
     }
 
     // Close the prepared statement

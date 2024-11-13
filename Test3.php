@@ -1,4 +1,8 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -28,17 +32,17 @@ function aes_decrypt($data, $key, $iv) {
 
 if (isset($_POST['save_sign_up'])) {
     // Get the form data
-    $Sign_up_details_email = $_POST['Sign_up_details_email'];
-    $Sign_up_details_pass = $_POST['Sign_up_details_pass'];
-    $Sign_up_details_IC = $_POST['Sign_up_details_IC'];
-    $Sign_up_details_Name = $_POST['Sign_up_details_Name'];
-    $Sign_up_details_PhoneNumber = $_POST['Sign_up_details_PhoneNumber'];
-    $Sign_up_details_address1 = $_POST['Sign_up_details_address1'];
-    $Sign_up_details_address2 = $_POST['Sign_up_details_address2'];
-    $Sign_up_details_city = $_POST['Sign_up_details_city'];
-    $Sign_up_details_State = $_POST['Sign_up_details_State'];
-    $Sign_up_details_postal = $_POST['Sign_up_details_postal'];
-    $Sign_up_details_firstAppointment = $_POST['Sign_up_details_firstAppointment'];
+    $Sign_up_details_email = SecurityUtils::sanitize_input($_POST['Sign_up_details_email']);
+    $Sign_up_details_pass = SecurityUtils::sanitize_input($_POST['Sign_up_details_pass']);
+    $Sign_up_details_IC = SecurityUtils::sanitize_input($_POST['Sign_up_details_IC']);
+    $Sign_up_details_Name = SecurityUtils::sanitize_input($_POST['Sign_up_details_Name']);
+    $Sign_up_details_PhoneNumber = SecurityUtils::sanitize_input($_POST['Sign_up_details_PhoneNumber']);
+    $Sign_up_details_address1 = SecurityUtils::sanitize_input($_POST['Sign_up_details_address1']);
+    $Sign_up_details_address2 = SecurityUtils::sanitize_input($_POST['Sign_up_details_address2']);
+    $Sign_up_details_city = SecurityUtils::sanitize_input($_POST['Sign_up_details_city']);
+    $Sign_up_details_State = SecurityUtils::sanitize_input($_POST['Sign_up_details_State']);
+    $Sign_up_details_postal = SecurityUtils::sanitize_input($_POST['Sign_up_details_postal']);
+    $Sign_up_details_firstAppointment = SecurityUtils::sanitize_input($_POST['Sign_up_details_firstAppointment']);
 
     // Validate IC length
     if (strlen($Sign_up_details_IC) != 12 || !ctype_digit($Sign_up_details_IC)) {

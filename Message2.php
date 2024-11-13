@@ -25,7 +25,12 @@
 <body>
     <h2>Message Output</h2>
 
-    <?php
+<?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+
+
 $server_name = "localhost";
 $username = "root";
 $password = "";
@@ -59,11 +64,11 @@ $result = mysqli_stmt_get_result($stmt);
 
 // Check if any rows were returned
 if (mysqli_num_rows($result) > 0) {
-    // Output the messages
+    // Output the messages with proper sanitization
     while ($row = mysqli_fetch_assoc($result)) {
         echo '<div class="message-container">';
-        echo '<div class="message-title">' . $row['title'] . '</div>';
-        echo '<div class="message-description">' . $row['description'] . '</div>';
+        echo '<div class="message-title">' . SecurityUtils::sanitize_output($row['title']) . '</div>';
+        echo '<div class="message-description">' . SecurityUtils::sanitize_output($row['description']) . '</div>';
         echo '</div>';
     }
 } else {
