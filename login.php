@@ -15,6 +15,8 @@ if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
 
+// Initialize brute force protection
+$bruteForce = new BruteForceProtection($conn);
 
 // Check if the login form is submitted
 if (isset($_POST['login_form_submit'])) {
@@ -31,12 +33,25 @@ if (isset($_POST['login_form_submit'])) {
 
         $email = filter_var($_POST['Login_email'], FILTER_SANITIZE_EMAIL);
         $password = $_POST['Login_password'];
-    $email = $_POST['Login_email'];
-    $password = $_POST['Login_password'];
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo "Invalid email format.";
         } else {
+            // Define the log file path (ensure correct path)
+            $log_file = __DIR__ . "/logs/user_activity.log";
+            $current_time = date("Y-m-d H:i:s");
+            $log_message = "User with email $email attempted to log in at $current_time\n";
+
+            // Ensure the logs directory exists
+            if (!file_exists(__DIR__ . "/logs")) {
+                mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
+            }
+
+            // Log the login attempt (write to the log file)
+            if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                echo "Error logging login attempt! Could not write to log file.";
+            }
+
             // Prepare the statement to retrieve the hashed password
             $sql_query = "SELECT sign_up_details_pass FROM sign_up WHERE sign_up_details_email = ?";
             $stmt = mysqli_prepare($conn, $sql_query);
@@ -52,80 +67,42 @@ if (isset($_POST['login_form_submit'])) {
 
                 // Verify the entered password with the hashed password
                 if (password_verify($password, $hashedPassword)) {
+                    // Log successful login
+                    $log_message = "User with email $email successfully logged in at $current_time\n";
+                    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                        echo "Error logging successful login!";
+                    }
+
                     $bruteForce->recordLoginAttempt($email, true);
                     session_start();
                     $_SESSION['user_email'] = $email;
-                    echo "HomePage.html"; // This will trigger the redirect
+                    echo 'HomePage.html'; // This will trigger the redirect
                 } else {
+                    // Log failed login attempt
+                    $log_message = "Failed login attempt for email $email at $current_time (Incorrect email or password)\n";
+                    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                        echo "Error logging failed login attempt!";
+                    }
+
                     $bruteForce->recordLoginAttempt($email, false);
                     $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
                     echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
                 }
             } else {
+                // Log failed login attempt
+                $log_message = "Failed login attempt for email $email at $current_time (Incorrect email or password)\n";
+                if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                    echo "Error logging failed login attempt!";
+                }
+
                 $bruteForce->recordLoginAttempt($email, false);
                 $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
                 echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
             }
+
+            mysqli_stmt_close($stmt);
         }
-
-        mysqli_stmt_close($stmt);
     }
-
-    exit();
-    // Define the log file path (ensure correct path)
-    $log_file = __DIR__ . "/logs/user_activity.log";
-    $current_time = date("Y-m-d H:i:s");
-    $log_message = "User with email $email attempted to log in at $current_time\n";
-
-    // Ensure the logs directory exists
-    if (!file_exists(__DIR__ . "/logs")) {
-        mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
-    }
-
-    // Log the login attempt (write to the log file)
-    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
-        echo "Error logging login attempt! Could not write to log file.";
-    }
-
-    // Use prepared statements for secure query
-    $stmt = $conn->prepare("SELECT * FROM sign_up WHERE sign_up_details_email = ? AND sign_up_details_pass = ?");
-    $stmt->bind_param("ss", $email, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result) {
-        if (mysqli_num_rows($result) == 1) {
-            // Log successful login
-            $log_message = "User with email $email successfully logged in at $current_time\n";
-            if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
-                echo "Error logging successful login!";
-            }
-
-            // Return 'HomePage.html' for redirection
-            echo 'HomePage.html';
-        } else {
-            // Log failed login attempt
-            $log_message = "Failed login attempt for email $email at $current_time (Incorrect email or password)\n";
-            if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
-                echo "Error logging failed login attempt!";
-            }
-
-            // Return error response
-            echo 'Incorrect email or password';
-        }
-    } else {
-        // Log query execution error
-        $log_message = "Login query failed for email $email at $current_time. Error: " . mysqli_error($conn) . "\n";
-        if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
-            echo "Error logging query execution failure!";
-        }
-
-        // Return query failure message
-        echo 'Login query failed. Please try again later.';
-    }
-
-    // Close the prepared statement
-    $stmt->close();
 }
 
 mysqli_close($conn);

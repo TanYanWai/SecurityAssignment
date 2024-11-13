@@ -57,9 +57,8 @@ $stmt = $conn->prepare("INSERT INTO appointment (Appointment_date, Appointment_t
 // Bind parameters to the prepared statement
 $stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentEmail, $appointmentName, $appointmentRoom);
 
-
 // Execute the query and log results
-if ($conn->query($sql) === TRUE) {
+if ($stmt->execute()) {
     // Log successful insertion
     $log_message = "Successfully inserted appointment for $appointmentName (email: $appointmentEmail) on $appointmentDate at $appointmentTime in room $appointmentRoom. Time: $current_time\n";
     if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {

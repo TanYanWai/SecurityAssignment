@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 // Define the log file path
-$log_file = __DIR__ . "/logs/appointment_activity.log";  // Path to log file
+$log_file = __DIR__ . "/logs/user_activity.log";  // Path to log file
 
 // Ensure the logs directory exists
 if (!file_exists(__DIR__ . "/logs")) {

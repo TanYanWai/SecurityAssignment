@@ -32,17 +32,15 @@ if (strlen($description) > 1000) {
   die("Description must be 1000 characters or fewer.");
 }
 
-// SQL query to insert message data
 // Prepare the SQL statement
 $stmt = $conn->prepare("INSERT INTO messages (sender_email, recipient_email, title, description) VALUES (?, ?, ?, ?)");
 
 // Bind the parameters to the prepared statement
+$sender_email = "admin@gmail.com";
 $stmt->bind_param("ssss", $sender_email, $recipient_email, $title, $description);
 
-// Error Handling: Check if query executes successfully
-$sender_email = "admin@gmail.com";
-
-if ($conn->query($sql) === TRUE) {
+// Execute the query and check for success
+if ($stmt->execute()) {
     session_start();
     $_SESSION['recipient_email'] = $recipient_email;
 
@@ -65,7 +63,7 @@ if ($conn->query($sql) === TRUE) {
     echo "Message sent successfully!";
 } else {
     // Error Handling: Output detailed error if query fails
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $stmt->error;
 }
 
 // Close the statement
