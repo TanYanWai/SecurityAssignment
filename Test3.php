@@ -27,6 +27,9 @@ if (isset($_POST['save_sign_up'])) {
     $Sign_up_details_postal = $_POST['Sign_up_details_postal'];
     $Sign_up_details_firstAppointment = $_POST['Sign_up_details_firstAppointment'];
 
+    // Hash the password
+    $hashed_password = password_hash($Sign_up_details_pass, PASSWORD_BCRYPT);
+
     // Prepare the SQL query using placeholders
     $sql_query = "INSERT INTO sign_up (sign_up_details_email, Sign_up_details_pass, sign_up_details_IC, sign_up_details_Name, Sign_up_details_PhoneNumber, sign_up_details_address1, sign_up_details_address2, sign_up_details_city, sign_up_details_State, sign_up_details_postal, Sign_up_details_firstAppointment) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -34,7 +37,7 @@ if (isset($_POST['save_sign_up'])) {
     // Prepare the statement
     if ($stmt = mysqli_prepare($conn, $sql_query)) {
         // Bind the parameters to the prepared statement
-        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $Sign_up_details_pass, $Sign_up_details_IC, $Sign_up_details_Name, $Sign_up_details_PhoneNumber, $Sign_up_details_address1, $Sign_up_details_address2, $Sign_up_details_city, $Sign_up_details_State, $Sign_up_details_postal, $Sign_up_details_firstAppointment);
+        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $hashed_password, $Sign_up_details_IC, $Sign_up_details_Name, $Sign_up_details_PhoneNumber, $Sign_up_details_address1, $Sign_up_details_address2, $Sign_up_details_city, $Sign_up_details_State, $Sign_up_details_postal, $Sign_up_details_firstAppointment);
         
         // Execute the statement
         if (mysqli_stmt_execute($stmt)) {
