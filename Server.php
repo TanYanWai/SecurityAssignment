@@ -17,8 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $room = $_POST['room'];
     $servingNumber = $_POST['servingNumber'];
 
-    // Insert the serving numbers into the database
-    $sql = "INSERT INTO queue (room, serving_number) VALUES ('$room', '$servingNumber')";
-    $conn->query($sql);
+    // Prepare the SQL statement with placeholders
+    $stmt = $conn->prepare("INSERT INTO queue (room, serving_number) VALUES (?, ?)");
+
+    // Bind the user input to the placeholders
+    $stmt->bind_param("si", $room, $servingNumber);  // 's' for string, 'i' for integer
+
+    // Execute the prepared statement
+    if ($stmt->execute()) {
+        echo "Data inserted successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
 }
+
+// Close the connection
+$conn->close();
 ?>

@@ -34,18 +34,22 @@ if (!filter_var($appointmentEmail, FILTER_VALIDATE_EMAIL)) {
     die("Invalid email format.");
 }
 
-// Create SQL query directly
-$sql = "INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
-        VALUES ('$appointmentDate', '$appointmentTime', '$appointmentEmail', '$appointmentName', '$appointmentRoom')";
+// Prepare the SQL statement
+$stmt = $conn->prepare("INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
+                        VALUES (?, ?, ?, ?, ?)");
 
-// Error Handling: Check if query executes successfully
-if ($conn->query($sql) === TRUE) {
-    echo "Data inserted successfully!";
+// Bind parameters to the prepared statement
+$stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentEmail, $appointmentName, $appointmentRoom);
+
+// Execute the statement
+if ($stmt->execute()) {
+    echo "Data inserted successfully";
 } else {
-    // Error Handling: Output detailed error if query fails
-    echo "Error inserting data: " . $conn->error;
+    // Error Handling: Output detailed error if fails
+    echo "Error inserting data: " . $stmt->error;
 }
 
-// Close the connection
+// Close the statement and connection
+$stmt->close();
 $conn->close();
 ?>

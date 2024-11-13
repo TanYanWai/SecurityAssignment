@@ -46,58 +46,72 @@
         </div>
       
         <?php
-        // Configuration
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "assignment";
+// Configuration
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "assignment";
 
-        // Create a connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+// Create a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        // Retrieve the appointment details from the database
-        $sql = "SELECT * FROM appointment";
-        $result = $conn->query($sql);
+// Prepare the SQL query (no user input here)
+$sql = "SELECT * FROM appointment";
 
-        // Check if appointments exist
-        if ($result->num_rows > 0) {
-            // Iterate over the appointment records and add them to the output
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="container_patient">';
-                echo '<div class="containerPatientTitle">';
-                echo '<label class="containerPatientTitle-label">Email :</label>';
-                echo '<span class="containerPatientTitle-value">' . $row["Appointment_email"] . '</span>';
-                echo '</div>';
-                echo '<div class="detail-row">';
-                echo '<label class="detail-label">Name :</label>';
-                echo '<span class="detail-value">' . $row["Appointment_name"] . '</span>';
-                echo '</div>';
-                echo '<div class="detail-row">';
-                echo '<label class="detail-label">Time :</label>';
-                echo '<span class="detail-value">' . $row["Appointment_time"] . '</span>';
-                echo '</div>';
-                echo '<div class="detail-row">';
-                echo '<label class="detail-label">Appointment Date:</label>';
-                echo '<span class="detail-value">' . $row["Appointment_date"] . '</span>';
-                echo '</div>';
-                echo '<div class="detail-row">';
-                echo '<label class="detail-label">Appointment Room:</label>';
-                echo '<span class="detail-value">' . $row["Appointment_room"] . '</span>';
-                echo '</div>';
-                echo '</div>';
-            }
-        } else {
-            echo "No appointments found.";
-        }
+// Prepare the query
+$stmt = $conn->prepare($sql);
 
-        // Close the connection
-        $conn->close();
-        ?>
+// Check if the query was prepared successfully
+if ($stmt === false) {
+    die('Error preparing the statement: ' . $conn->error);
+}
+
+// Execute the query
+$stmt->execute();
+
+// Get the result
+$result = $stmt->get_result();
+
+// Check if appointments exist
+if ($result->num_rows > 0) {
+    // Iterate over the appointment records and add them to the output
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="container_patient">';
+        echo '<div class="containerPatientTitle">';
+        echo '<label class="containerPatientTitle-label">Email :</label>';
+        echo '<span class="containerPatientTitle-value">' . htmlspecialchars($row["Appointment_email"]) . '</span>';
+        echo '</div>';
+        echo '<div class="detail-row">';
+        echo '<label class="detail-label">Name :</label>';
+        echo '<span class="detail-value">' . htmlspecialchars($row["Appointment_name"]) . '</span>';
+        echo '</div>';
+        echo '<div class="detail-row">';
+        echo '<label class="detail-label">Time :</label>';
+        echo '<span class="detail-value">' . htmlspecialchars($row["Appointment_time"]) . '</span>';
+        echo '</div>';
+        echo '<div class="detail-row">';
+        echo '<label class="detail-label">Appointment Date:</label>';
+        echo '<span class="detail-value">' . htmlspecialchars($row["Appointment_date"]) . '</span>';
+        echo '</div>';
+        echo '<div class="detail-row">';
+        echo '<label class="detail-label">Appointment Room:</label>';
+        echo '<span class="detail-value">' . htmlspecialchars($row["Appointment_room"]) . '</span>';
+        echo '</div>';
+        echo '</div>';
+    }
+} else {
+    echo "No appointments found.";
+}
+
+// Close the connection
+$conn->close();
+?>
+
 
     </div>
 

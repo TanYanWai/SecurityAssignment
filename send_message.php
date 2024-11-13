@@ -4,7 +4,7 @@ $username = "root";
 $password = "";
 $dbname = "assignment";
 
-// Retrieve form data
+// Get the form data
 $recipient_email = $_POST['recipient_email'];
 $title = $_POST['title'];
 $description = $_POST['description'];
@@ -33,21 +33,28 @@ if (strlen($description) > 1000) {
 }
 
 // SQL query to insert message data
-$sql = "INSERT INTO messages (sender_email, recipient_email, title, description)
-        VALUES ('admin@gmail.com', '$recipient_email', '$title', '$description')";
+// Prepare the SQL statement
+$stmt = $conn->prepare("INSERT INTO messages (sender_email, recipient_email, title, description) VALUES (?, ?, ?, ?)");
+
+// Bind the parameters to the prepared statement
+$stmt->bind_param("ssss", $sender_email, $recipient_email, $title, $description);
 
 // Error Handling: Check if query executes successfully
-if ($conn->query($sql) === TRUE) {
-  // Start session and set session variable
+$sender_email = "admin@gmail.com";
+
+// Execute the statement
+if ($stmt->execute()) {
   session_start();
   $_SESSION['recipient_email'] = $recipient_email;
 
   echo "Message sent successfully!";
 } else {
-  // Error Handling: Output detailed error if query fails
-  echo "Error: " . $sql . "<br>" . $conn->error;
+    // Error Handling: Output detailed error if query fails
+  echo "Error: " . $stmt->error;
 }
 
+// Close the statement
+$stmt->close();
 // Close the connection
 $conn->close();
 ?>
