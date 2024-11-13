@@ -11,8 +11,10 @@ $username = "root";
 $password = "";
 $database_name = "assignment";
 
+// Create connection
 $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
+// Error Handling: Check connection
 if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
@@ -31,7 +33,7 @@ function aes_decrypt($data, $key, $iv) {
 }
 
 if (isset($_POST['save_sign_up'])) {
-    // Get the form data
+    // Retrieve form data
     $Sign_up_details_email = SecurityUtils::sanitize_input($_POST['Sign_up_details_email']);
     $Sign_up_details_pass = SecurityUtils::sanitize_input($_POST['Sign_up_details_pass']);
     $Sign_up_details_IC = SecurityUtils::sanitize_input($_POST['Sign_up_details_IC']);
@@ -43,6 +45,38 @@ if (isset($_POST['save_sign_up'])) {
     $Sign_up_details_State = SecurityUtils::sanitize_input($_POST['Sign_up_details_State']);
     $Sign_up_details_postal = SecurityUtils::sanitize_input($_POST['Sign_up_details_postal']);
     $Sign_up_details_firstAppointment = SecurityUtils::sanitize_input($_POST['Sign_up_details_firstAppointment']);
+
+    // Validation: Check if required fields are filled in
+    if (empty($Sign_up_details_email) || empty($Sign_up_details_pass) || empty($Sign_up_details_IC) ||
+        empty($Sign_up_details_Name) || empty($Sign_up_details_PhoneNumber) || empty($Sign_up_details_address1) ||
+        empty($Sign_up_details_city) || empty($Sign_up_details_State) || empty($Sign_up_details_postal) ||
+        empty($Sign_up_details_firstAppointment)) {
+        die("All fields are required. Please fill in all the fields.");
+    }
+
+    // Validation: Check if email is in a valid format
+    if (!filter_var($Sign_up_details_email, FILTER_VALIDATE_EMAIL)) {
+        die("Invalid email format.");
+    }
+
+    // Validation: Check password strength
+    if (strlen($Sign_up_details_pass) < 8 ||
+        !preg_match('/[A-Z]/', $Sign_up_details_pass) ||    // At least one uppercase letter
+        !preg_match('/[a-z]/', $Sign_up_details_pass) ||    // At least one lowercase letter
+        !preg_match('/[0-9]/', $Sign_up_details_pass) ||    // At least one number
+        !preg_match('/[\W]/', $Sign_up_details_pass)) {     // At least one special character
+        die("Password must be at least 8 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.");
+    }
+
+    // Validation: Check phone number format (exactly 10 digits)
+    if (!preg_match('/^[0-9]{10}$/', $Sign_up_details_PhoneNumber)) {
+        die("Phone number must be exactly 10 digits.");
+    }
+
+    // Validation: Check postal code format (exactly 5 digits)
+    if (!preg_match('/^[0-9]{5}$/', $Sign_up_details_postal)) {
+        die("Postal code must be exactly 5 digits.");
+    }
 
     // Validate IC length
     if (strlen($Sign_up_details_IC) != 12 || !ctype_digit($Sign_up_details_IC)) {
@@ -65,6 +99,8 @@ if (isset($_POST['save_sign_up'])) {
     $sql_query = "INSERT INTO sign_up (sign_up_details_email, Sign_up_details_pass, sign_up_details_IC, sign_up_details_Name, sign_up_details_PhoneNumber, sign_up_details_address1, sign_up_details_address2, sign_up_details_city, sign_up_details_State, sign_up_details_postal, Sign_up_details_firstAppointment) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    // Error Handling: Check if query executes successfully
+    
     // Prepare the statement
     if ($stmt = mysqli_prepare($conn, $sql_query)) {
         // Bind the parameters to the prepared statement
