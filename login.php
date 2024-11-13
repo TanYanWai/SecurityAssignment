@@ -16,33 +16,25 @@ $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
 // Check connection
 if (!$conn) {
-    // Error Handling: Connection error
     echo "Connection Failed: " . mysqli_connect_error();
     exit();
 }
+
 // Initialize brute force protection
 $bruteForce = new BruteForceProtection($conn);
 
 // Check if the login form is submitted
 if (isset($_POST['login_form_submit'])) {
-    // Validation: Check if email and password fields are set and not empty
     if (empty($_POST['Login_email']) || empty($_POST['Login_password'])) {
         echo "Please enter both email and password.";
     } else {
-        // Validation: Check if email is in valid format
-        // Check if IP is blocked
-    if ($bruteForce->isIPBlocked()) {
-        $remainingTime = $bruteForce->getRemainingLockoutTime();
-        $minutes = floor($remainingTime / 60);
-        $seconds = $remainingTime % 60;
-        
-        if ($minutes > 0) {
+        if ($bruteForce->isIPBlocked()) {
+            $remainingTime = $bruteForce->getRemainingLockoutTime();
+            $minutes = floor($remainingTime / 60);
+            $seconds = $remainingTime % 60;
             echo "Too many failed attempts. Please try again in {$minutes} minute(s) and {$seconds} seconds.";
-        } else {
-            echo "Too many failed attempts. Please try again in {$seconds} seconds.";
+            exit();
         }
-        exit();
-    }
 
     $email = SecurityUtils::sanitize_input($_POST['Login_email']);
     $password = SecurityUtils::sanitize_input($_POST['Login_password']);
@@ -64,29 +56,33 @@ if (isset($_POST['login_form_submit'])) {
             // Error Handling: Check if query execution is successful
             if (!$result) {
                 echo "Query Execution Failed: " . mysqli_error($conn);
-            } else {
-                // Error Handling: Check if login credentials are correct
-                if (mysqli_num_rows($result) == 1) {
-                    // Successful login
+            } else if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                $hashedPassword = $row['sign_up_details_pass'];
+
+                // Verify the entered password with the hashed password
+                if (password_verify($password, $hashedPassword)) {
                     $bruteForce->recordLoginAttempt($email, true);
                     session_start();
-            $_SESSION['user_email'] = $email;
-            echo "HomePage.html"; // This will trigger the redirect
+                    $_SESSION['user_email'] = $email;
+                    echo "HomePage.html"; // This will trigger the redirect
                 } else {
-            // Failed login
-            $bruteForce->recordLoginAttempt($email, false);
-            $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
+                    $bruteForce->recordLoginAttempt($email, false);
+                    $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
                     echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
                 }
+            } else {
+                $bruteForce->recordLoginAttempt($email, false);
+                $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
+                echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
             }
         }
+
+        mysqli_stmt_close($stmt);
     }
 
-    // Close the statement
-    mysqli_stmt_close($stmt);
     exit();
 }
 
-// Close the connection
 mysqli_close($conn);
 ?>
