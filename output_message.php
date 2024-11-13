@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 
 require_once 'includes/SecurityUtils.php';
 
@@ -27,26 +26,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    echo '<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const alertDiv = document.createElement("div");
-            alertDiv.style.padding = "20px";
-            alertDiv.style.backgroundColor = "#f44336";
-            alertDiv.style.color = "white";
-            alertDiv.style.marginBottom = "15px";
-            alertDiv.style.position = "fixed";
-            alertDiv.style.top = "20px";
-            alertDiv.style.left = "50%";
-            alertDiv.style.transform = "translateX(-50%)";
-            alertDiv.style.borderRadius = "5px";
-            alertDiv.innerHTML = "No messages found for the recipient email: ' . SecurityUtils::sanitize_output($_SESSION['recipient_email']) . '";
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(function() {
-                alertDiv.style.display = "none";
-            }, 3000);  // Alert will disappear after 3 seconds
-        });
-    </script>';
+    echo "<script>
+        alert('No messages found for the recipient email: " . SecurityUtils::sanitize_output($_SESSION['recipient_email']) . "');
+        window.location.href = 'Message.html';  // Optional: redirect back to message page
+    </script>";
 } else {
     echo '<div class="container">';
     echo '
