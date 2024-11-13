@@ -21,6 +21,7 @@ if (!file_exists(__DIR__ . "/logs")) {
 
 // Check connection
 if ($conn->connect_error) {
+    // Error Handling: Connection error
     die("Connection failed: " . $conn->connect_error);
 }
 
@@ -31,6 +32,16 @@ $appointmentEmail = $_POST['Appointment_email'];
 $appointmentName = $_POST['Appointment_name'];
 $appointmentRoom = $_POST['Appointment_room'];
 
+// Validation: Check if required fields are filled in
+if (empty($appointmentDate) || empty($appointmentTime) || empty($appointmentEmail) || empty($appointmentName) || empty($appointmentRoom)) {
+    die("All fields are required. Please fill in all the fields.");
+}
+
+// Validation: Check if email is in valid format
+if (!filter_var($appointmentEmail, FILTER_VALIDATE_EMAIL)) {
+    die("Invalid email format.");
+}
+
 // Log the appointment attempt
 $current_time = date("Y-m-d H:i:s");
 $log_message = "Attempted to insert appointment for $appointmentName (email: $appointmentEmail) on $appointmentDate at $appointmentTime in room $appointmentRoom. Time: $current_time\n";
@@ -40,9 +51,12 @@ if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
     echo "Error logging appointment attempt!";
 }
 
-// Create SQL query to insert data
-$sql = "INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
-        VALUES ('$appointmentDate', '$appointmentTime', '$appointmentEmail', '$appointmentName', '$appointmentRoom')";
+$stmt = $conn->prepare("INSERT INTO appointment (Appointment_date, Appointment_time, Appointment_email, Appointment_name, Appointment_room) 
+                        VALUES (?, ?, ?, ?, ?)");
+
+// Bind parameters to the prepared statement
+$stmt->bind_param("sssss", $appointmentDate, $appointmentTime, $appointmentEmail, $appointmentName, $appointmentRoom);
+
 
 // Execute the query and log results
 if ($conn->query($sql) === TRUE) {
@@ -53,6 +67,7 @@ if ($conn->query($sql) === TRUE) {
     }
     echo "Data inserted successfully.";
 } else {
+    // Error Handling: Output detailed error if fails
     // Log error in case of failure
     $log_message = "Failed to insert appointment for $appointmentName (email: $appointmentEmail) on $appointmentDate at $appointmentTime in room $appointmentRoom. Error: " . $conn->error . " Time: $current_time\n";
     if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {

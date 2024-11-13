@@ -42,34 +42,77 @@ function logUserActivity($action, $icNumber, $month = null) {
 
 
 if (isset($_POST['report_button'])) {
-    $report_Ic_Number = $_POST['report_Ic_Number'];
-    $report_month = $_POST['report_month'];
-    $report_first_name = $_POST['report_first_name'];
-    $report_last_name = $_POST['report_last_name'];
-    $report_patient_tel = $_POST['report_patient_tel'];
-    $report_patient_birthday = $_POST['report_patient_birthday'];
-    $report_patient_email = $_POST['report_patient_email'];
-    $report_patient_address1 = $_POST['report_patient_address1'];
-    $report_patient_address2 = $_POST['report_patient_address2'];
-    $report_first_city = $_POST['report_first_city'];
-    $report_state = $_POST['report_state'];
-    $report_postal = $_POST['report_postal'];
-    $bloodPressure = $_POST['bloodPressure'];
-    $weight1 = $_POST['weight1'];
-    $ultraSound = $_POST['ultraSound'];
-    $fetalHeartRate = $_POST['fetalHeartRate'];
-    $maternalSymptoms = $_POST['maternalSymptoms'];
-    $immunizations = $_POST['immunizations'];
-    $doctorreport = $_POST['doctorreport'];
+    // Initialize variables
+    $report_Ic_Number = isset($_POST['report_Ic_Number']) ? trim($_POST['report_Ic_Number']) : '';
+    $report_month = isset($_POST['report_month']) ? trim($_POST['report_month']) : '';
+    $report_first_name = isset($_POST['report_first_name']) ? trim($_POST['report_first_name']) : '';
+    $report_last_name = isset($_POST['report_last_name']) ? trim($_POST['report_last_name']) : '';
+    $report_patient_tel = isset($_POST['report_patient_tel']) ? trim($_POST['report_patient_tel']) : '';
+    $report_patient_birthday = isset($_POST['report_patient_birthday']) ? trim($_POST['report_patient_birthday']) : '';
+    $report_patient_email = isset($_POST['report_patient_email']) ? trim($_POST['report_patient_email']) : '';
+    $report_patient_address1 = isset($_POST['report_patient_address1']) ? trim($_POST['report_patient_address1']) : '';
+    $report_patient_address2 = isset($_POST['report_patient_address2']) ? trim($_POST['report_patient_address2']) : '';
+    $report_first_city = isset($_POST['report_first_city']) ? trim($_POST['report_first_city']) : '';
+    $report_state = isset($_POST['report_state']) ? trim($_POST['report_state']) : '';
+    $report_postal = isset($_POST['report_postal']) ? trim($_POST['report_postal']) : '';
+    $bloodPressure = isset($_POST['bloodPressure']) ? trim($_POST['bloodPressure']) : '';
+    $weight1 = isset($_POST['weight1']) ? trim($_POST['weight1']) : '';
+    $ultraSound = isset($_POST['ultraSound']) ? trim($_POST['ultraSound']) : '';
+    $fetalHeartRate = isset($_POST['fetalHeartRate']) ? trim($_POST['fetalHeartRate']) : '';
+    $maternalSymptoms = isset($_POST['maternalSymptoms']) ? trim($_POST['maternalSymptoms']) : '';
+    $immunizations = isset($_POST['immunizations']) ? trim($_POST['immunizations']) : '';
+    $doctorreport = isset($_POST['doctorreport']) ? trim($_POST['doctorreport']) : '';
 
-    $sql_query = "INSERT INTO pregnancy_report1 (report_Ic_Number, report_month, report_first_name, report_last_name, report_patient_tel, report_patient_birthday, report_patient_email, report_patient_address1, report_patient_address2, report_first_city, report_state, report_postal, bloodPressure, weight1, ultraSound, fetalHeartRate, maternalSymptoms, immunizations, doctorreport)
-    VALUES ('$report_Ic_Number', '$report_month', '$report_first_name', '$report_last_name', '$report_patient_tel', '$report_patient_birthday', '$report_patient_email', '$report_patient_address1', '$report_patient_address2', '$report_first_city', '$report_state', '$report_postal', '$bloodPressure', '$weight1', '$ultraSound', '$fetalHeartRate', '$maternalSymptoms', '$immunizations', '$doctorreport')";
+    // Basic validation
+    $errors = [];
+    if (empty($report_Ic_Number) || !preg_match('/^\d{12}$/', $report_Ic_Number)) {
+        $errors[] = "IC Number is required and must be 12 digits.";
+    }
+    if (empty($report_month)) $errors[] = "Pregnancy Month is required.";
+    if (empty($report_first_name)) $errors[] = "First Name is required.";
+    if (empty($report_last_name)) $errors[] = "Last Name is required.";
+    if (empty($report_patient_tel) || !preg_match('/^\d{10}$/', $report_patient_tel)) {
+        $errors[] = "Phone Number is required and must be 10 digits.";
+    }
+    if (empty($report_patient_birthday)) $errors[] = "Birthday is required.";
+    if (empty($report_patient_email)) $errors[] = "Email is required.";
+    if (empty($report_patient_address1)) $errors[] = "Address1 is required.";
+    if (empty($report_first_city)) $errors[] = "City is required.";
+    if (empty($report_state)) $errors[] = "State is required.";
+    if (empty($report_postal) || !preg_match('/^\d{5}$/', $report_postal)) {
+        $errors[] = "Postal Code is required and must be 5 digits.";
+    }
+    // Validate numeric fields (blood pressure, weight, ultrasound, fetal heart rate)
+    if (empty($bloodPressure) || !is_numeric($bloodPressure)) {
+        $errors[] = "Blood Pressure must be numeric.";
+    }
+    if (empty($weight1) || !is_numeric($weight1)) {
+        $errors[] = "Weight must be numeric.";
+    }
+    if (empty($ultraSound) || !is_numeric($ultraSound)) {
+        $errors[] = "Ultra Sound findings must be numeric.";
+    }
+    if (empty($fetalHeartRate) || !is_numeric($fetalHeartRate)) {
+        $errors[] = "Fetal Heart Rate must be numeric.";
+    }
 
-    if (mysqli_query($conn, $sql_query)) {
-        echo "Data inserted successfully!";
-        logUserActivity('Insert Report', $report_Ic_Number, $report_month);
+    // Display errors if any
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo "<p style='color:red;'>$error</p>";
+        }
     } else {
-        echo "Error: " . $sql_query . "<br>" . mysqli_error($conn);
+        // Insert data into the database
+        $sql_query = "INSERT INTO pregnancy_report1 (report_Ic_Number, report_month, report_first_name, report_last_name, report_patient_tel, report_patient_birthday, report_patient_email, report_patient_address1, report_patient_address2, report_first_city, report_state, report_postal, bloodPressure, weight1, ultraSound, fetalHeartRate, maternalSymptoms, immunizations, doctorreport)
+        VALUES ('$report_Ic_Number', '$report_month', '$report_first_name', '$report_last_name', '$report_patient_tel', '$report_patient_birthday', '$report_patient_email', '$report_patient_address1', '$report_patient_address2', '$report_first_city', '$report_state', '$report_postal', '$bloodPressure', '$weight1', '$ultraSound', '$fetalHeartRate', '$maternalSymptoms', '$immunizations', '$doctorreport')";
+
+    
+    if (mysqli_query($conn, $sql_query)) {
+            echo "Data inserted successfully!";
+            logUserActivity('Insert Report', $report_Ic_Number, $report_month);
+    } else {
+            echo "Error: " . $sql_query . "<br>" . mysqli_error($conn);
+        }
     }
     mysqli_close($conn);
 } elseif (isset($_POST['report_search_submit'])) {
@@ -82,7 +125,7 @@ if (isset($_POST['report_button'])) {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-
+        
         // Extract the report details from the retrieved row
         $report_Ic_Number = $row['report_Ic_Number'];
         $report_month =  $row['report_month'];
@@ -103,6 +146,7 @@ if (isset($_POST['report_button'])) {
         $maternalSymptoms = $row['maternalSymptoms'];
         $immunizations = $row['immunizations'];
         $doctorreport = $row['doctorreport'];
+
 
         echo '
         <html lang="en">
