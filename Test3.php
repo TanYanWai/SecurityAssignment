@@ -21,6 +21,11 @@ function aes_encrypt($data, $key, $iv) {
     return openssl_encrypt($data, 'AES-256-CBC', $key, 0, $iv);
 }
 
+// Add a decryption function
+function aes_decrypt($data, $key, $iv) {
+    return openssl_decrypt($data, 'AES-256-CBC', $key, 0, $iv);
+}
+
 if (isset($_POST['save_sign_up'])) {
     // Get the form data
     $Sign_up_details_email = $_POST['Sign_up_details_email'];
@@ -80,5 +85,27 @@ if (isset($_POST['save_sign_up'])) {
     mysqli_close($conn);
 } else {
     echo "Form not submitted";
+}
+
+// Example of fetching and decrypting data
+$sql_query = "SELECT sign_up_details_IC, sign_up_details_PhoneNumber FROM sign_up WHERE sign_up_details_email = ?";
+if ($stmt = mysqli_prepare($conn, $sql_query)) {
+    mysqli_stmt_bind_param($stmt, "s", $Sign_up_details_email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $encrypted_IC, $encrypted_PhoneNumber);
+    
+    if (mysqli_stmt_fetch($stmt)) {
+        // Decrypt the retrieved data
+        $decrypted_IC = aes_decrypt($encrypted_IC, AES_KEY, AES_IV);
+        $decrypted_PhoneNumber = aes_decrypt($encrypted_PhoneNumber, AES_KEY, AES_IV);
+        
+        echo "Decrypted IC: " . $decrypted_IC . "<br>";
+        echo "Decrypted Phone Number: " . $decrypted_PhoneNumber . "<br>";
+    } else {
+        echo "No record found.";
+    }
+    
+    // Close the statement
+    mysqli_stmt_close($stmt);
 }
 ?>
