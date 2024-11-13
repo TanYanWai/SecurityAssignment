@@ -40,20 +40,26 @@ if (isset($_POST['save_sign_up'])) {
         die("Error: IC number must be exactly 12 digits.");
     }
 
-    // Encrypt the IC number using AES-256
+    // Encrypt the fields using AES-256
     $encrypted_IC = aes_encrypt($Sign_up_details_IC, AES_KEY, AES_IV);
+    $encrypted_PhoneNumber = aes_encrypt($Sign_up_details_PhoneNumber, AES_KEY, AES_IV);
+    $encrypted_address1 = aes_encrypt($Sign_up_details_address1, AES_KEY, AES_IV);
+    $encrypted_address2 = aes_encrypt($Sign_up_details_address2, AES_KEY, AES_IV);
+    $encrypted_city = aes_encrypt($Sign_up_details_city, AES_KEY, AES_IV);
+    $encrypted_State = aes_encrypt($Sign_up_details_State, AES_KEY, AES_IV);
+    $encrypted_postal = aes_encrypt($Sign_up_details_postal, AES_KEY, AES_IV);
 
     // Hash the password
     $hashed_password = password_hash($Sign_up_details_pass, PASSWORD_BCRYPT);
 
     // Prepare the SQL query using placeholders
-    $sql_query = "INSERT INTO sign_up (sign_up_details_email, Sign_up_details_pass, sign_up_details_IC, sign_up_details_Name, Sign_up_details_PhoneNumber, sign_up_details_address1, sign_up_details_address2, sign_up_details_city, sign_up_details_State, sign_up_details_postal, Sign_up_details_firstAppointment) 
+    $sql_query = "INSERT INTO sign_up (sign_up_details_email, Sign_up_details_pass, sign_up_details_IC, sign_up_details_Name, sign_up_details_PhoneNumber, sign_up_details_address1, sign_up_details_address2, sign_up_details_city, sign_up_details_State, sign_up_details_postal, Sign_up_details_firstAppointment) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Prepare the statement
     if ($stmt = mysqli_prepare($conn, $sql_query)) {
         // Bind the parameters to the prepared statement
-        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $hashed_password, $encrypted_IC, $Sign_up_details_Name, $Sign_up_details_PhoneNumber, $Sign_up_details_address1, $Sign_up_details_address2, $Sign_up_details_city, $Sign_up_details_State, $Sign_up_details_postal, $Sign_up_details_firstAppointment);
+        mysqli_stmt_bind_param($stmt, "sssssssssss", $Sign_up_details_email, $hashed_password, $encrypted_IC, $Sign_up_details_Name, $encrypted_PhoneNumber, $encrypted_address1, $encrypted_address2, $encrypted_city, $encrypted_State, $encrypted_postal, $Sign_up_details_firstAppointment);
         
         // Execute the statement
         if (mysqli_stmt_execute($stmt)) {
