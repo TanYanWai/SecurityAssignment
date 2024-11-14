@@ -2,6 +2,7 @@
 header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 
 require_once 'includes/SecurityUtils.php';
+require_once 'includes/config.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -87,13 +88,13 @@ if (isset($_POST['save_sign_up'])) {
     }
 
     // Encrypt the fields using AES-256
-    $encrypted_IC = aes_encrypt($Sign_up_details_IC, AES_KEY, AES_IV);
-    $encrypted_PhoneNumber = aes_encrypt($Sign_up_details_PhoneNumber, AES_KEY, AES_IV);
-    $encrypted_address1 = aes_encrypt($Sign_up_details_address1, AES_KEY, AES_IV);
-    $encrypted_address2 = aes_encrypt($Sign_up_details_address2, AES_KEY, AES_IV);
-    $encrypted_city = aes_encrypt($Sign_up_details_city, AES_KEY, AES_IV);
-    $encrypted_State = aes_encrypt($Sign_up_details_State, AES_KEY, AES_IV);
-    $encrypted_postal = aes_encrypt($Sign_up_details_postal, AES_KEY, AES_IV);
+    $encrypted_IC = aes_encrypt($Sign_up_details_IC, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_PhoneNumber = aes_encrypt($Sign_up_details_PhoneNumber, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_address1 = aes_encrypt($Sign_up_details_address1, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_address2 = aes_encrypt($Sign_up_details_address2, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_city = aes_encrypt($Sign_up_details_city, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_State = aes_encrypt($Sign_up_details_State, ENCRYPTION_KEY, ENCRYPTION_IV);
+    $encrypted_postal = aes_encrypt($Sign_up_details_postal, ENCRYPTION_KEY, ENCRYPTION_IV);
 
     // Hash the password
     $hashed_password = password_hash($Sign_up_details_pass, PASSWORD_BCRYPT);
