@@ -13,8 +13,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT room_number, queue_number FROM queue_table WHERE is_current = 1";
-$result = $conn->query($sql);
+// Prepared statement to select the current room and queue
+$stmt = $conn->prepare("SELECT room_number, queue_number FROM queue_table WHERE is_current = ?");
+$isCurrent = 1;
+$stmt->bind_param("i", $isCurrent);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -25,19 +29,24 @@ if ($result->num_rows > 0) {
     $currentQueue = "N/A";
 }
 
-// Fetch the queue numbers
-$queueNumbers = [];
-$sql = "SELECT room_number, queue_number FROM queue_table";
-$result = $conn->query($sql);
+$stmt->close();
 
+// Prepared statement to fetch all queue numbers
+$stmt = $conn->prepare("SELECT room_number, queue_number FROM queue_table");
+$stmt->execute();
+$result = $stmt->get_result();
+
+$queueNumbers = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $queueNumbers[] = $row;
     }
 }
 
+$stmt->close();
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>

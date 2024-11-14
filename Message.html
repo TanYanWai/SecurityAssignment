@@ -43,7 +43,7 @@
             <div class="message_title">
                 <h2>Compose Message</h2>
             </div>
-            <form method="post" action="send_message.php">
+            <form id="messageForm">
                 <div class="input_message1">
                     <label for="recipient_email">Recipient Email:</label>
                     <select name="recipient_email" id="recipient_email"></select>
@@ -51,15 +51,13 @@
                 </div>
                 <div class="input_message">
                     <label for="title">Title:</label>
-                    <input class="form_input" type="text" name="title" id="title">
+                    <input class="form_input" type="text" name="title" id="title" required>
                 </div>
                 <div class="form_textarea">
                     <label class="form_textarea" for="description">Description:</label>
-                    <textarea class="form_textarea1" name="description" id="description"></textarea>
+                    <textarea class="form_textarea1" name="description" id="description" required></textarea>
                 </div>
-                <div class="button_message">
-                    <input class="button_message1" type="submit" name="message_form_submit" value="Send">
-                </div>
+                <input type="submit" value="Send Message">
             </form>
         </div>
     </div>
@@ -83,6 +81,33 @@
             }
         };
         xhr.send();
+    </script>
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('send_message.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    console.log('Response received:', response);
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    alert(data);
+                    if (data.includes('successfully')) {
+                        this.reset();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred: ' + error);
+                });
+        });
     </script>
 </body>
 

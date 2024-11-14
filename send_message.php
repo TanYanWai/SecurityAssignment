@@ -1,31 +1,84 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
+
+require_once 'includes/SecurityUtils.php';
+
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "assignment";
 
+// Get and sanitize the form data
+$recipient_email = filter_var($_POST['recipient_email'], FILTER_SANITIZE_EMAIL);
+$title = SecurityUtils::sanitize_input($_POST['title']);
+$description = SecurityUtils::sanitize_input($_POST['description']);
 
-$recipient_email = $_POST['recipient_email'];
-$title = $_POST['title'];
-$description = $_POST['description'];
+// Validate email
+if (!filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
+    echo "Invalid email format";
+    exit();
+}
 
+// Create database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+// Error Handling: Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    echo "Connection failed: " . $conn->connect_error;
+    exit();
 }
 
-$sql = "INSERT INTO messages (sender_email, recipient_email, title, description)
-        VALUES ('admin@gmail.com', '$recipient_email', '$title', '$description')";
+// Validation: Check if required fields are filled in
+if (empty($recipient_email) || empty($title) || empty($description)) {
+  die("All fields are required. Please fill in all the fields.");
+}
 
-if ($conn->query($sql) === TRUE) {
-  session_start();
-  $_SESSION['recipient_email'] = $recipient_email;
+// Validation: Check title length (e.g., max 255 characters)
+if (strlen($title) > 255) {
+  die("Title must be 255 characters or fewer.");
+}
 
-  echo "Message sent successfully!";
+// Validation: Check description length (e.g., max 1000 characters)
+if (strlen($description) > 1000) {
+  die("Description must be 1000 characters or fewer.");
+}
+
+// Prepare the SQL statement
+$stmt = $conn->prepare("INSERT INTO messages (sender_email, recipient_email, title, description) VALUES (?, ?, ?, ?)");
+
+// Bind the parameters to the prepared statement
+$sender_email = "admin@gmail.com";
+$stmt->bind_param("ssss", $sender_email, $recipient_email, $title, $description);
+
+// Execute the query and check for success
+if ($stmt->execute()) {
+    session_start();
+    $_SESSION['recipient_email'] = $recipient_email;
+
+    // Log message activity
+    $log_file = __DIR__ . "/logs/user_activity.log";  // Path to the log file
+    $current_time = date("Y-m-d H:i:s");
+    $log_message = "User sent a message to $recipient_email with title '$title' at $current_time\n";
+
+    // Ensure the logs directory exists
+    if (!file_exists(__DIR__ . "/logs")) {
+        mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
+    }
+
+    // Write to the log file
+    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+        echo "Error logging user activity!";
+    }
+
+    // Success message
+    echo "Message sent successfully!";
 } else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+    // Error Handling: Output detailed error if query fails
+    echo "Error: " . $stmt->error;
 }
 
+// Close the statement
+$stmt->close();
+// Close the connection
 $conn->close();
 ?>
