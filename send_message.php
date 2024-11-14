@@ -19,7 +19,7 @@ if (!filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// Create a new connection
+// Create database connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Error Handling: Check connection
@@ -43,23 +43,38 @@ if (strlen($description) > 1000) {
   die("Description must be 1000 characters or fewer.");
 }
 
-// SQL query to insert message data
 // Prepare the SQL statement
 $stmt = $conn->prepare("INSERT INTO messages (sender_email, recipient_email, title, description) VALUES (?, ?, ?, ?)");
 
 // Bind the parameters to the prepared statement
+$sender_email = "admin@gmail.com";
 $stmt->bind_param("ssss", $sender_email, $recipient_email, $title, $description);
 
-// Error Handling: Check if query executes successfully
-$sender_email = "admin@gmail.com";
-
-// Execute the statement
+// Execute the query and check for success
 if ($stmt->execute()) {
     session_start();
     $_SESSION['recipient_email'] = $recipient_email;
+
+    // Log message activity
+    $log_file = __DIR__ . "/logs/user_activity.log";  // Path to the log file
+    $current_time = date("Y-m-d H:i:s");
+    $log_message = "User sent a message to $recipient_email with title '$title' at $current_time\n";
+
+    // Ensure the logs directory exists
+    if (!file_exists(__DIR__ . "/logs")) {
+        mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
+    }
+
+    // Write to the log file
+    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+        echo "Error logging user activity!";
+    }
+
+    // Success message
     echo "Message sent successfully!";
 } else {
-    echo "Failed to send message: " . $stmt->error;
+    // Error Handling: Output detailed error if query fails
+    echo "Error: " . $stmt->error;
 }
 
 // Close the statement

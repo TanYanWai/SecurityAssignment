@@ -16,8 +16,7 @@ $conn = mysqli_connect($server_name, $username, $password, $database_name);
 
 // Check connection
 if (!$conn) {
-    echo "Connection Failed: " . mysqli_connect_error();
-    exit();
+    die("Connection Failed: " . mysqli_connect_error());
 }
 
 // Initialize brute force protection
@@ -42,13 +41,28 @@ if (isset($_POST['login_form_submit'])) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Invalid email format.";
     } else {
-        // Use prepared statement to prevent SQL injection
-        $sql_query = "SELECT * FROM sign_up WHERE sign_up_details_email = ? AND sign_up_details_pass = ?";
+            // Define the log file path (ensure correct path)
+            $log_file = __DIR__ . "/logs/user_activity.log";
+            $current_time = date("Y-m-d H:i:s");
+            $log_message = "User with email $email attempted to log in at $current_time\n";
+
+            // Ensure the logs directory exists
+            if (!file_exists(__DIR__ . "/logs")) {
+                mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if not exists
+            }
+
+            // Log the login attempt (write to the log file)
+            if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                echo "Error logging login attempt! Could not write to log file.";
+            }
+
+       // Prepare the statement to retrieve the hashed password
+       $sql_query = "SELECT sign_up_details_pass FROM sign_up WHERE sign_up_details_email = ?";
     
             // Prepare the statement
-    $stmt = mysqli_prepare($conn, $sql_query);
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
-    mysqli_stmt_execute($stmt);
+        $stmt = mysqli_prepare($conn, $sql_query);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
     
     // Get the result
     $result = mysqli_stmt_get_result($stmt);
@@ -62,26 +76,42 @@ if (isset($_POST['login_form_submit'])) {
 
                 // Verify the entered password with the hashed password
                 if (password_verify($password, $hashedPassword)) {
+                    // Log successful login
+                    $log_message = "User with email $email successfully logged in at $current_time\n";
+                    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                        echo "Error logging successful login!";
+                    }
+
                     $bruteForce->recordLoginAttempt($email, true);
                     session_start();
                     $_SESSION['user_email'] = $email;
-                    echo "HomePage.html"; // This will trigger the redirect
+                    echo 'HomePage.html'; // This will trigger the redirect
                 } else {
+                    // Log failed login attempt
+                    $log_message = "Failed login attempt for email $email at $current_time (Incorrect email or password)\n";
+                    if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                        echo "Error logging failed login attempt!";
+                    }
+
                     $bruteForce->recordLoginAttempt($email, false);
                     $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
                     echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
                 }
             } else {
+                // Log failed login attempt
+                $log_message = "Failed login attempt for email $email at $current_time (Incorrect email or password)\n";
+                if (file_put_contents($log_file, $log_message, FILE_APPEND) === false) {
+                    echo "Error logging failed login attempt!";
+                }
+
                 $bruteForce->recordLoginAttempt($email, false);
                 $attemptsLeft = $bruteForce->getMaxAttempts() - $bruteForce->getFailedAttempts($email);
                 echo "Incorrect email or password. Attempts remaining: {$attemptsLeft}";
             }
+
+            mysqli_stmt_close($stmt);
         }
-
-        mysqli_stmt_close($stmt);
     }
-
-    exit();
 }
 
 mysqli_close($conn);

@@ -16,6 +16,34 @@ if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
 
+// Define the log file path for user activity logs
+$log_file = __DIR__ . "/logs/user_activity.log";// Path to log file
+
+// Ensure the logs directory exists
+if (!file_exists(__DIR__ . "/logs")) {
+    mkdir(__DIR__ . "/logs", 0777, true);  // Create 'logs' directory if it does not exist
+}
+
+// Example log message
+$log_message = "User action recorded on " . date("Y-m-d H:i:s");
+file_put_contents($log_file, $log_message . PHP_EOL, FILE_APPEND);  // Append log message to the file
+
+function logUserActivity($action, $icNumber, $month = null) {
+    $logFile = __DIR__ . "/logs/user_activity.log";  // Use absolute path
+    $timestamp = date("Y-m-d H:i:s");
+    $logMessage = "[$timestamp] Action: $action | IC Number: $icNumber";
+
+    if ($month) {
+        $logMessage .= " | Month: $month";
+    }
+
+    // Log the activity to the file
+    if (file_put_contents($logFile, $logMessage . PHP_EOL, FILE_APPEND) === false) {
+        echo "Error writing to log file.";
+    }
+}
+
+
 if (isset($_POST['report_button'])) {
     // Initialize variables with sanitization
     $report_Ic_Number = isset($_POST['report_Ic_Number']) ? SecurityUtils::sanitize_input($_POST['report_Ic_Number']) : '';
@@ -106,9 +134,11 @@ if (isset($_POST['report_button'])) {
             $doctorreport
         );
 
-        if ($stmt->execute()) {
+    
+    if ($stmt->execute()) {
             echo "<script>alert('Data inserted successfully!');</script>";
-        } else {
+            logUserActivity('Insert Report', $report_Ic_Number, $report_month);
+    } else {
             echo "<script>alert('Error: " . SecurityUtils::sanitize_output($stmt->error) . "');</script>";
         }
     }
@@ -145,49 +175,49 @@ if (isset($_POST['report_button'])) {
         $immunizations = $row['immunizations'];
         $doctorreport = $row['doctorreport'];
 
-        echo '
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Klinik Kesihatan</title>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-                <link rel="stylesheet" href="HomePage.css">
-                <link rel="stylesheet" href="Pregnancy_reportFor_Php.css">
-                <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            </head>
-            <body>
-            <header class="header">
-    <div class="top_header">
-        <div class="contacts">
-            <div class="contact_email">
-                <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
-            </div>
-            <div class="contact_phone">
-                <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
-            </div>
-        </div>
-        <div class="transparent_button">
-            <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
-        </div>
-    </div>
 
-    <div class="navigation">
-        <div class="brand">
-            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
-        </div>
-        <div class="nav">
-           <a href="HomePage.html">Home</a >
-           <a href="LiveQueue.html">Live Queue</a >
-           <a href="Message.html">Send Message</a >
-           <a href="output_message.php">Receive Message</a >
-           <a href="Pregnancy_report1.html">Report</a >
-        </div>
-    </div>
-</header>
-            ';
-        
+        echo '
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Klinik Kesihatan</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            <link rel="stylesheet" href="HomePage.css">
+            <link rel="stylesheet" href="Pregnancy_reportFor_Php.css">
+            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        </head>
+        <body>
+        <header class="header">
+            <div class="top_header">
+                <div class="contacts">
+                    <div class="contact_email">
+                        <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+                    </div>
+                    <div class="contact_phone">
+                        <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+                    </div>
+                </div>
+                <div class="transparent_button">
+                    <a href="ForAppointment.html" class="buttonItSlef details">BOOK APPOINTMENT</a>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="brand">
+                    <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+                </div>
+                <div class="nav">
+                    <a href="HomePage.html">Home</a >
+                    <a href="LiveQueue.html">Live Queue</a >
+                    <a href="Message.html">Send Message</a >
+                    <a href="output_message.php">Receive Message</a >
+                    <a href="Pregnancy_report1.html">Report</a >
+                </div>
+            </div>
+        </header>
+        ';
+
         echo "<div class='bgcontainer'>";
         echo "<div class='container'>";
         echo "<div class='report_details'>";
@@ -195,57 +225,62 @@ if (isset($_POST['report_button'])) {
         echo "<label for='report_Ic_Number'>Ic Number:</label>";
         echo "<input type='text' id='report_Ic_Number' name='report_Ic_Number' value='$report_Ic_Number' readonly><br><br>";
         
-        echo "<label for='report_month'>Pregnancy Month:</label>";
-        echo "<input type='text' id='report_month' name='report_month' value='$report_month' readonly><br><br>";
+        echo "<label for='report_first_name'>First Name:</label>";
+        echo "<input type='text' id='report_first_name' name='report_first_name' value='$reportFirstName' readonly><br><br>";
         
-        echo "<label for='reportFirstName'>First Name:</label>";
-        echo "<input type='text' id='reportFirstName' name='reportFirstName' value='$reportFirstName' readonly><br><br>";
+        echo "<label for='report_last_name'>Last Name:</label>";
+        echo "<input type='text' id='report_last_name' name='report_last_name' value='$reportLastName' readonly><br><br>";
         
-        echo "<label for='reportLastName'>Last Name:</label>";
-        echo "<input type='text' id='reportLastName' name='reportLastName' value='$reportLastName' readonly><br><br>";
-        
-        echo "<label for='reportPatientTel'>Phone Number:</label>";
-        echo "<input type='text' id='reportPatientTel' name='reportPatientTel' value='$reportPatientTel' readonly><br><br>";
-        
+        echo "<label for='report_patient_tel'>Phone Number:</label>";
+        echo "<input type='text' id='report_patient_tel' name='report_patient_tel' value='$reportPatientTel' readonly><br><br>";
+
         echo "<label for='report_patient_birthday'>Birthday:</label>";
         echo "<input type='text' id='report_patient_birthday' name='report_patient_birthday' value='$report_patient_birthday' readonly><br><br>";
-        
+
         echo "<label for='report_patient_email'>Email:</label>";
         echo "<input type='text' id='report_patient_email' name='report_patient_email' value='$report_patient_email' readonly><br><br>";
-        
-        echo "<label for='report_patient_address1'>Address1:</label>";
+
+        echo "<label for='report_patient_address1'>Address 1:</label>";
         echo "<input type='text' id='report_patient_address1' name='report_patient_address1' value='$report_patient_address1' readonly><br><br>";
-        
-        echo "<label for='report_patient_address2'>Address2:</label>";
+
+        echo "<label for='report_patient_address2'>Address 2:</label>";
         echo "<input type='text' id='report_patient_address2' name='report_patient_address2' value='$report_patient_address2' readonly><br><br>";
-        
+
         echo "<label for='report_first_city'>City:</label>";
         echo "<input type='text' id='report_first_city' name='report_first_city' value='$report_first_city' readonly><br><br>";
-        
+
         echo "<label for='report_state'>State:</label>";
         echo "<input type='text' id='report_state' name='report_state' value='$report_state' readonly><br><br>";
-        
-        echo "<label for='report_postal'>Postal:</label>";
+
+        echo "<label for='report_postal'>Postal Code:</label>";
         echo "<input type='text' id='report_postal' name='report_postal' value='$report_postal' readonly><br><br>";
-        
+
         echo "<label for='bloodPressure'>Blood Pressure:</label>";
         echo "<input type='text' id='bloodPressure' name='bloodPressure' value='$bloodPressure' readonly><br><br>";
-        
+
         echo "<label for='weight1'>Weight:</label>";
         echo "<input type='text' id='weight1' name='weight1' value='$weight1' readonly><br><br>";
-        
-        echo "<label for='ultraSound'>Ultra Sound:</label>";
+
+        echo "<label for='ultraSound'>UltraSound:</label>";
         echo "<input type='text' id='ultraSound' name='ultraSound' value='$ultraSound' readonly><br><br>";
-        
+
         echo "<label for='fetalHeartRate'>Fetal Heart Rate:</label>";
         echo "<input type='text' id='fetalHeartRate' name='fetalHeartRate' value='$fetalHeartRate' readonly><br><br>";
-        
-        echo "<label for='nextAppointment'>Next Appointment:</label>";
-        echo "<input type='text' id='nextAppointment' name='nextAppointment' value='$doctorreport' readonly><br><br>";
-        
+
+        echo "<label for='maternalSymptoms'>Maternal Symptoms:</label>";
+        echo "<input type='text' id='maternalSymptoms' name='maternalSymptoms' value='$maternalSymptoms' readonly><br><br>";
+
+        echo "<label for='immunizations'>Immunizations:</label>";
+        echo "<input type='text' id='immunizations' name='immunizations' value='$immunizations' readonly><br><br>";
+
+        echo "<label for='doctorreport'>Doctor Report:</label>";
+        echo "<input type='text' id='doctorreport' name='doctorreport' value='$doctorreport' readonly><br><br>";
+
         echo "</form>";
         echo "</div>";
         echo "</div>";
+
+        logUserActivity('Search Report', $report_IC_number, $report_month);
     } else {
         echo "<p>No report found for the given IC number and month of pregnancy.</p>";
     }
