@@ -26,6 +26,7 @@
     <h2>Message Output</h2>
 
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 
 require_once 'includes/SecurityUtils.php';
 
@@ -43,8 +44,9 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Assuming you have received the IC number via GET or POST
-$icNumber = $_POST['icNumber']; // or $_GET['icNumber']
+// Sanitize and validate IC number
+$icNumber = SecurityUtils::sanitize_input($_POST['icNumber']);
+
 
 // Prepare the SQL statement to select messages based on IC number
 $sql = "SELECT * FROM message WHERE icNumber = ?";

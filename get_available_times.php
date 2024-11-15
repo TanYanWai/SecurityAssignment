@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $servername = "localhost";
