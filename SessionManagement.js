@@ -10,12 +10,12 @@ function resetInactivityTimer() {
     clearTimeout(timeoutId);
 
     // Set a new timeout
-    timeoutId = setTimeout(redirectToLogin, inactivityTimeout);
+    timeoutId = setTimeout(redirectToLogout, inactivityTimeout);
 }
 
-// Function to redirect to the login page
-function redirectToLogin() {
-    window.location.href = 'login1.html'; // Replace with your login page URL
+// Function to redirect to logout script (destroys session)
+function redirectToLogout() {
+    window.location.href = 'logout.php'; // Redirect to logout.php to destroy the session
 }
 
 // Event listeners for user activity (reset timer on interaction)
