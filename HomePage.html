@@ -1,96 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Klinik Kesihatan</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="HomePage.css">
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    </head>
-    <body>
-<header class="header">
-    <div class="top_header">
-        <div class="contacts">
-            <div class="contact_email">
-                <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
-            </div>
-            <div class="contact_phone">
-                <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
-            </div>
-        </div>
-        <div class="transparent_button">
-            <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
-        </div>
-    </div>
 
-    <div class="navigation">
-        <div class="brand">
-            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
-        </div>
-        <div class="nav">
-           <a href="HomePage.html">Home</a >
-           <a href="LiveQueue.html">Live Queue</a >
-           <a href="Message.html">Send Message</a >
-           <a href="output_message.php">Receive Message</a >
-           <a href="Pregnancy_report1.html">Report</a >
-        </div>
-    </div>
-</header>
- <main>
-    <div class="hero">
-        <div class="hero_inner">
-            <p><b>ISLAND PREGNANCY CLINIC</b></p >
-            <p><h3><b>BETTER CARE AND BETTER UNDERSTANDING</b></h3></p >
-            <p>Not just better healthcare, but a better health care experience</p >
-            <div>
-                <a href="output_appointment.php" class="transparent_button">VIEW APPOINTMENT</a >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klinik Kesihatan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="HomePage.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="SessionManagement.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="top_header">
+            <div class="contacts">
+                <div class="contact_email">
+                    <span><ion-icon name="mail-outline"></ion-icon> CKlinik@gamil.com</span>
+                </div>
+                <div class="contact_phone">
+                    <span><ion-icon name="call-outline"></ion-icon>+604 222 2222</span>
+                </div>
+            </div>
+            <div class="transparent_button">
+                <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
             </div>
         </div>
 
-    </div>
-    <div class="hero_overlay">
-    </div>
- </main>
- <div class="container1">
-    <div class="box">
-        <img src="download.jpeg" alt="">
-        <h3>KEEPING WELL IN PREGNANCY</h3>
-        <div class="visible-content">
-            <p>How to look after yourself and your baby while you're pregnant.</p>
+        <div class="navigation">
+            <div class="brand">
+                <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a>
+            </div>
+            <div class="nav">
+                <a href="HomePage.html">Home</a>
+                <a href="LiveQueue.html">Live Queue</a>
+                <a href="Message.html">Send Message</a>
+                <a href="output_message.php">Receive Message</a>
+                <a href="Pregnancy_report1.html">Report</a>
+            </div>
         </div>
-        <div class="invisible-content">
-            <p>Have a healthy diet in pregnancy. A healthy diet is an important part of a healthy lifestyle at any time but is especially vital if you're pregnant or planning a pregnancy. Eating healthily during pregnancy will help your baby to develop and grow. You do not need to go on a special diet, but it's important to eat a variety of different foods every day to get the right balance of nutrients that you and your baby need. It's best to get vitamins and minerals from the foods you eat, but when you're pregnant you need to take a folic acid supplement as well, to make sure you get everything you need.</p>
-        </div>
-        <button id="btn">Read More</button>
-    </div>
+    </header>
+    <main>
+        <div class="hero">
+            <div class="hero_inner">
+                <p><b>ISLAND PREGNANCY CLINIC</b></p>
+                <p>
+                <h3><b>BETTER CARE AND BETTER UNDERSTANDING</b></h3>
+                </p>
+                <p>Not just better healthcare, but a better health care experience</p>
+                <div>
+                    <a href="output_appointment.php" class="transparent_button">VIEW APPOINTMENT</a>
+                </div>
+            </div>
 
-    <div class="box">
-        <img src="mom.jpeg" alt="">
-        <h3>FINDING OUT YOU'RE PREGNANT</h3>
-        <div class="visible-content">
-            <p>What happens and things to think about when you're first pregnant.</p>
         </div>
-        <div class="invisible-content">
-            <p>You should contact your GP surgery or local midwife service as soon as you find out you're pregnant (before 8 weeks into the pregnancy). It's important to see a midwife as early as possible to get the antenatal (pregnancy) care and information you need to have a healthy pregnancy. If you’re not registered with a GP, you can find a GP in your area and contact them to register. Your pregnancy can be treated confidentially, even if you're under 16. A GP or midwife can tell you about your choices for antenatal care in your local area. Being pregnant may affect the treatment of any current illness or conditions you have or later develop.</p>
+        <div class="hero_overlay">
         </div>
-        <button id="btn">Read More</button>
-    </div>
+    </main>
+    <div class="container1">
+        <div class="box">
+            <img src="download.jpeg" alt="">
+            <h3>KEEPING WELL IN PREGNANCY</h3>
+            <div class="visible-content">
+                <p>How to look after yourself and your baby while you're pregnant.</p>
+            </div>
+            <div class="invisible-content">
+                <p>Have a healthy diet in pregnancy. A healthy diet is an important part of a healthy lifestyle at any
+                    time but is especially vital if you're pregnant or planning a pregnancy. Eating healthily during
+                    pregnancy will help your baby to develop and grow. You do not need to go on a special diet, but it's
+                    important to eat a variety of different foods every day to get the right balance of nutrients that
+                    you and your baby need. It's best to get vitamins and minerals from the foods you eat, but when
+                    you're pregnant you need to take a folic acid supplement as well, to make sure you get everything
+                    you need.</p>
+            </div>
+            <button id="btn">Read More</button>
+        </div>
 
-    <div class="box">
-        <img src="mother.jpeg" alt="">
-        <h3>THE PREGNANCY CARE</h3>
-        <div class="visible-content">
-            <p>Read about the scans, tests and antenatal care you can have.</p>
+        <div class="box">
+            <img src="mom.jpeg" alt="">
+            <h3>FINDING OUT YOU'RE PREGNANT</h3>
+            <div class="visible-content">
+                <p>What happens and things to think about when you're first pregnant.</p>
+            </div>
+            <div class="invisible-content">
+                <p>You should contact your GP surgery or local midwife service as soon as you find out you're pregnant
+                    (before 8 weeks into the pregnancy). It's important to see a midwife as early as possible to get the
+                    antenatal (pregnancy) care and information you need to have a healthy pregnancy. If you’re not
+                    registered with a GP, you can find a GP in your area and contact them to register. Your pregnancy
+                    can be treated confidentially, even if you're under 16. A GP or midwife can tell you about your
+                    choices for antenatal care in your local area. Being pregnant may affect the treatment of any
+                    current illness or conditions you have or later develop.</p>
+            </div>
+            <button id="btn">Read More</button>
         </div>
-        <div class="invisible-content">
-            <p>Antenatal care is the care you get from health professionals during your pregnancy. It's sometimes called pregnancy care or maternity care. You'll be offered appointments with a midwife, or sometimes a doctor who specialises in pregnancy and birth (an obstetrician). You should start your antenatal care as soon as possible once you know you're pregnant. You can do this by contacting a midwife or GP.</p>
+
+        <div class="box">
+            <img src="mother.jpeg" alt="">
+            <h3>THE PREGNANCY CARE</h3>
+            <div class="visible-content">
+                <p>Read about the scans, tests and antenatal care you can have.</p>
+            </div>
+            <div class="invisible-content">
+                <p>Antenatal care is the care you get from health professionals during your pregnancy. It's sometimes
+                    called pregnancy care or maternity care. You'll be offered appointments with a midwife, or sometimes
+                    a doctor who specialises in pregnancy and birth (an obstetrician). You should start your antenatal
+                    care as soon as possible once you know you're pregnant. You can do this by contacting a midwife or
+                    GP.</p>
+            </div>
+            <button id="btn">Read More</button>
         </div>
-        <button id="btn">Read More</button>
     </div>
- </div>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
- <script type="text/javascript" src="HomePage.js"></script>
-    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="HomePage.js"></script>
+</body>
+
 </html>

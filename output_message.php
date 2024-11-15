@@ -43,6 +43,7 @@ if ($result->num_rows === 0) {
             <link rel="stylesheet" href="HomePage.css">
             <link rel="stylesheet" href="output_message.css">
             <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+            <script src="SessionManagement.js"></script>
             <style>
                 .message-container-wrapper {
                     display: flex;
@@ -141,6 +142,7 @@ if ($result->num_rows === 0) {
     echo '</div>';
     echo '</div>';
 }
+
 
 // Close the connection
 $conn->close();

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+
+<head>
     <title>Hospital Booking System Appointment From </title>
     <link rel="stylesheet" type="text/css" href="Pregnancy_report.css">
     <link rel="stylesheet" type="text/css" href="HomePage.css">
+    <script src="SessionManagement.js"></script>
 </head>
 
 <body>
@@ -21,46 +23,46 @@
                 <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
             </div>
         </div>
-    
+
         <div class="navigation">
             <div class="brand">
-                <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+                <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a>
             </div>
             <div class="nav">
-               <a href="HomePage.html">Home</a >
-               <a href="LiveQueue.html">Live Queue</a >
-               <a href="Message.html">Send Message</a >
-               <a href="output_message.php">Receive Message</a >
-               <a href="Pregnancy_report1.html">Report</a >
+                <a href="HomePage.html">Home</a>
+                <a href="LiveQueue.html">Live Queue</a>
+                <a href="Message.html">Send Message</a>
+                <a href="output_message.php">Receive Message</a>
+                <a href="Pregnancy_report1.html">Report</a>
             </div>
         </div>
     </header>
     <div class="report_bg"></div>
     <div class="report_container">
-    <div class="report_title_patient">
-        <h1>Pregnancy Report</h1>
-    </div>
+        <div class="report_title_patient">
+            <h1>Pregnancy Report</h1>
+        </div>
         <div class="report_search">
             <form action="Pregnancy_report.php" method="post">
                 <div class="forSearchReport">
-                <input type="text" name="report_IC_number" placeholder="Enter IC number">
-                <select name="report_month">
-                    <option value="1">Month 1</option>
-                    <option value="2">Month 2</option>
-                    <option value="3">Month 3</option>
-                    <option value="4">Month 4</option>
-                    <option value="5">Month 5</option>
-                    <option value="6">Month 6</option>
-                    <option value="7">Month 7</option>
-                    <option value="8">Month 8</option>
-                    <option value="9">Month 9</option>
-                    <option value="10">Month 10</option>
-                </select>
-                <input type="submit" id="reportSearchButton" name="report_search_submit" value="Search">
-            </div>
+                    <input type="text" name="report_IC_number" placeholder="Enter IC number">
+                    <select name="report_month">
+                        <option value="1">Month 1</option>
+                        <option value="2">Month 2</option>
+                        <option value="3">Month 3</option>
+                        <option value="4">Month 4</option>
+                        <option value="5">Month 5</option>
+                        <option value="6">Month 6</option>
+                        <option value="7">Month 7</option>
+                        <option value="8">Month 8</option>
+                        <option value="9">Month 9</option>
+                        <option value="10">Month 10</option>
+                    </select>
+                    <input type="submit" id="reportSearchButton" name="report_search_submit" value="Search">
+                </div>
             </form>
         </div>
-       
+
         <form action="Pregnancy_report.php" method="post">
             <div class="report_details">
                 <h3>Report details</h3>
@@ -161,12 +163,14 @@
                 <input type="text" name="doctorreport" placeholder="Fill in the blank" maxlength="300">
             </div>
             <div class="button_container ">
-              <input id="showMoreButton" class="RegisterButton" type="button" name="report_button1" value="Create Report">         
+                <input id="showMoreButton" class="RegisterButton" type="button" name="report_button1"
+                    value="Create Report">
                 <input id="RegisterButton2" class="RegisterButton" type="Submit" name="report_button" value="Save">
-              </div>
+            </div>
         </form>
     </div>
 
     <script type="text/javascript" src="Pregnancy_report.js"></script>
 </body>
+
 </html>

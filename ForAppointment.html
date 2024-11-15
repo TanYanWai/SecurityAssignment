@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="SessionManagement.js"></script>
     <link rel="stylesheet" href="ForAppointment.css">
     <link rel="stylesheet" href="HomePage.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -24,18 +25,19 @@
         <div class="transparent_button">
             <a href="ForAppointment.html" class="buttonItSlef details">BOOk APPOINTMENT</a>
         </div>
+
     </div>
 
     <div class="navigation">
         <div class="brand">
-            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a >
+            <a href=" " class="logo"><i class="fas fa-heartbeat"></i><b> Island Pregnancy Clinic</b></a>
         </div>
         <div class="nav">
-           <a href="HomePage.html">Home</a >
-           <a href="LiveQueue.html">Live Queue</a >
-           <a href="Message.html">Send Message</a >
-           <a href="output_message.php">Receive Message</a >
-           <a href="Pregnancy_report1.html">Report</a >
+            <a href="HomePage.html">Home</a>
+            <a href="LiveQueue.html">Live Queue</a>
+            <a href="Message.html">Send Message</a>
+            <a href="output_message.php">Receive Message</a>
+            <a href="Pregnancy_report1.html">Report</a>
         </div>
     </div>
 </header>
@@ -60,11 +62,13 @@
                 </div>
                 <div class="details_appointment">
                     <label class="details_appointment_title" for="Appointment_email">Pregnancy email :</label><br>
-                    <input class="appointmentInput" type="email" name="Appointment_email" placeholder="Email" maxlength="30" required>
+                    <input class="appointmentInput" type="email" name="Appointment_email" placeholder="Email"
+                        maxlength="30" required>
                 </div>
                 <div class="details_appointment">
                     <label class="details_appointment_title" for="Appointment_name">Pregnancy name :</label><br>
-                    <input class="appointmentInput" type="text" name="Appointment_name" placeholder="Name" maxlength="30" required>
+                    <input class="appointmentInput" type="text" name="Appointment_name" placeholder="Name"
+                        maxlength="30" required>
                 </div>
                 <div class="details_appointment">
                     <label class="details_appointment_title" for="Appointment_room">Room number :</label><br>
@@ -83,19 +87,20 @@
     </div>
 
 
-<script>
-    // AJAX request to get available times based on the selected date
-    document.getElementById('appointmentDate').addEventListener('change', function () {
-        var date = this.value;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'get_available_times.php?date=' + date, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                document.getElementById('appointmentTime').innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send();
-    });
-</script>
+    <script>
+        // AJAX request to get available times based on the selected date
+        document.getElementById('appointmentDate').addEventListener('change', function () {
+            var date = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'get_available_times.php?date=' + date, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('appointmentTime').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });
+    </script>
 </body>
+
 </html>
