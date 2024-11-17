@@ -93,5 +93,5 @@ ENCRYPTION_IV="kyHNAOuJpP0y8DMl"  <br>
 # How to launch
 - Ensure that the project is located within the XAMPP htdoc directory <br>
 - Ensure that the Apache and MySQL service is started <br>
-- Type "localhost/NameOfTheDirectoryWhereTheProjectLocatedInXAMPPhtdoc/login1" in the browser search bar and enter <br>
+- Type `localhost/NameOfTheDirectoryWhereTheProjectLocatedInXAMPPhtdoc/login1` in the browser search bar and enter <br>
 - The login page will be displayed <br>
